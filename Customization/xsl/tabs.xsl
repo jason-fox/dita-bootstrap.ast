@@ -24,13 +24,16 @@
     <ast:node type="TabContainer">
       <ast:props>
         <ast:prop name="defaultActiveKey" value="{($items[1]/@id, 'tab-0')[1]}"/>
-        <xsl:call-template name="common-props">
-          <xsl:with-param name="stripOutputclass" select="$tokens[. = ('nav-tabs', 'nav-pills')]"/>
-        </xsl:call-template>
       </ast:props>
       <ast:node type="Nav">
         <ast:props>
           <ast:prop name="variant" value="{$nav-variant}"/>
+          <!-- Tab.Container (the parent node) renders no DOM element, so id/className/margin
+               classes belong here on Nav - it's what actually renders role="tablist" -->
+          <xsl:call-template name="common-props">
+            <xsl:with-param name="stripOutputclass" select="$tokens[. = ('nav-tabs', 'nav-pills')]"/>
+            <xsl:with-param name="defaultClass" select="'tabbed-dialog'"/>
+          </xsl:call-template>
         </ast:props>
         <xsl:apply-templates select="$items" mode="tab-nav-item">
           <xsl:with-param name="items" select="$items" tunnel="yes"/>

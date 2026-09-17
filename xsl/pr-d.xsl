@@ -37,4 +37,24 @@
     </ast:node>
   </xsl:template>
 
+  <!-- pr-d/syntaxdiagram also matches topic/fig; Customization/xsl/figure.xsl excludes it, so this
+       plain div wins - but it still gets figure/w-100/mw-100/p-3 since bootstrap-class applies those to any topic/fig element regardless of wrapper. -->
+  <xsl:template match="*[contains(@class, ' pr-d/syntaxdiagram ')]">
+    <ast:node type="div">
+      <ast:props>
+        <xsl:call-template name="common-props">
+          <xsl:with-param name="defaultClass" select="'figure w-100 mw-100 p-3'"/>
+        </xsl:call-template>
+      </ast:props>
+      <xsl:apply-templates select="node()"/>
+    </ast:node>
+  </xsl:template>
+
+  <xsl:template match="*[contains(@class, ' pr-d/syntaxdiagram ')]/*[contains(@class, ' topic/title ')]">
+    <ast:node type="h3">
+      <ast:props/>
+      <ast:text><xsl:value-of select="."/></ast:text>
+    </ast:node>
+  </xsl:template>
+
 </xsl:stylesheet>

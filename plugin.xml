@@ -28,6 +28,51 @@
       desc="Base filename (no extension) for the merged TOC/nav JSON file"
       type="string"
     />
+    <param
+      name="args.breadcrumbs"
+      desc="Specifies whether to include a meta.breadcrumbs title/href trail in each topic's AST."
+      type="enum"
+    >
+      <val>yes</val>
+      <val default="true">no</val>
+    </param>
+    <!-- same param names/values as dita-bootstrap's html5-bootstrap transtype; not all modes are
+         rendered by react-harness yet, but the value threads through to toc.json either way -->
+    <param
+      name="nav-toc"
+      type="enum"
+      desc="Value passed through to toc.json's navToc field for the frontend to interpret."
+    >
+      <val desc="No TOC">none</val>
+      <val desc="Partial TOC that shows the current topic">partial</val>
+      <val desc="Full TOC">full</val>
+      <val
+        desc="Bootstrap styled partial TOC with descendents in a list-group"
+      >list-group-partial</val>
+      <val
+        desc="Bootstrap styled full TOC using a list-group"
+      >list-group-full</val>
+      <val
+        desc="Bootstrap styled partial TOC with descendents in nav-pills"
+      >nav-pill-partial</val>
+      <val
+        desc="Bootstrap styled full ToC using indented nav-pills"
+      >nav-pill-full</val>
+      <val
+        default="true"
+        desc="Bootstrap styled collapsible menu"
+      >collapsible</val>
+    </param>
+    <param
+      name="scrollspy-toc"
+      type="enum"
+      desc="Value passed through to toc.json's scrollspyToc field for the frontend to interpret."
+    >
+      <val default="true">none</val>
+      <val>list</val>
+      <val desc="Scrollspy menu using a list-group">list-group</val>
+      <val desc="Scrollspy menu using indented nav-pills">nav-pill</val>
+    </param>
   </transtype>
 
   <feature extension="ant.import" file="build_dita2ast-bootstrap.xml"/>

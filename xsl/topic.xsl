@@ -44,8 +44,14 @@
     </xsl:variable>
     <xsl:variable name="content" as="element(ast:node)*">
       <xsl:apply-templates select="$root-topic/*[contains(@class, ' topic/body ')]/*"/>
+      <!-- nested topics are siblings of body, not its children - scrollspy's "has subtopics"
+           branch needs them actually present in content, not just body's own children -->
+      <xsl:apply-templates select="$root-topic/*[contains(@class, ' topic/topic ')]"/>
     </xsl:variable>
-    <xsl:value-of select="ast:serialize-document($meta, $content)"/>
+    <xsl:variable name="scrollspy" as="element(ast:node)*">
+      <xsl:apply-templates select="$root-topic" mode="scrollspy"/>
+    </xsl:variable>
+    <xsl:value-of select="ast:serialize-document($meta, $content, $scrollspy)"/>
   </xsl:template>
 
   <!-- nested topic (e.g. task/concept substeps) -> article, matching org.dita.html5's child.topic -->
@@ -75,6 +81,11 @@
   <xsl:template match="*[contains(@class, ' topic/title ')]">
     <ast:node type="{concat('h', min((count(ancestor::*[contains(@class, ' topic/topic ')]) + 1, 6)))}">
       <ast:props>
+        <!-- only topic titles are scrollspy targets; section/example get their id from @id via
+             common-props, fig/dl titles need none -->
+        <xsl:if test="parent::*[contains(@class, ' topic/topic ')]">
+          <ast:prop name="id" value="{ast:scrollspy-title-id(.)}"/>
+        </xsl:if>
         <xsl:call-template name="common-props"/>
       </ast:props>
       <xsl:apply-templates select="(*|text())"/>

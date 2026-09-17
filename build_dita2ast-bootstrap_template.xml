@@ -45,6 +45,13 @@ See the accompanying LICENSE file for applicable license.
       validate="no"
       if:set="dita.input.valfile"
     />
+    <!-- needed by Customization/xsl/breadcrumb.xsl to walk ancestor topicrefs; same
+         mechanism as org.dita.html5's build_dita2html5.xml html5.map.url -->
+    <pathconvert property="ast-bootstrap.map.url" unless:set="noMap">
+      <first>
+        <ditafileset format="ditamap" input="true"/>
+      </first>
+    </pathconvert>
   </target>
 
   <target name="ast-bootstrap.topic" depends="ast-bootstrap.topic.init">
@@ -76,6 +83,21 @@ See the accompanying LICENSE file for applicable license.
             if:set="dita.input.valfile"
           />
         <param name="OUTEXT" expression="${out.ext}" if:set="out.ext"/>
+        <param
+            name="BREADCRUMBS"
+            expression="${args.breadcrumbs}"
+            if:set="args.breadcrumbs"
+          />
+        <param
+            name="input.map.url"
+            expression="${ast-bootstrap.map.url}"
+            if:set="ast-bootstrap.map.url"
+          />
+        <param
+            name="scrollspy-toc"
+            expression="${scrollspy-toc}"
+            if:set="scrollspy-toc"
+          />
         <xmlcatalog refid="dita.catalog"/>
       </xslt>
       </pipeline>
@@ -96,6 +118,12 @@ See the accompanying LICENSE file for applicable license.
             if:set="dita.input.valfile"
           />
         <param name="OUTEXT" expression="${out.ext}" if:set="out.ext"/>
+        <param name="nav-toc" expression="${nav-toc}" if:set="nav-toc"/>
+        <param
+            name="scrollspy-toc"
+            expression="${scrollspy-toc}"
+            if:set="scrollspy-toc"
+          />
         <mapper type="merge" to="${args.ast.toc}${out.ext}"/>
         <xmlcatalog refid="dita.catalog"/>
       </xslt>

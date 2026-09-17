@@ -22,11 +22,27 @@
         </xsl:when>
       </xsl:choose>
     </xsl:variable>
+    <!-- search-only synonyms; never rendered, so this is the AST's only representation of them -->
+    <xsl:variable
+      name="indexterms"
+      as="element()*"
+      select="*[contains(@class, ' topic/prolog ')]/*[contains(@class, ' topic/metadata ')]
+                            /*[contains(@class, ' topic/keywords ')]//*[contains(@class, ' topic/indexterm ')]"
+    />
     <ast:meta>
       <ast:prop name="title" value="{string(*[contains(@class, ' topic/title ')][1])}"/>
       <xsl:if test="$shortdesc-text">
         <ast:prop name="shortdesc" value="{$shortdesc-text}"/>
       </xsl:if>
+      <xsl:if test="$indexterms">
+        <ast:prop-array name="keywords">
+          <xsl:for-each select="$indexterms">
+            <ast:item value="{normalize-space(.)}"/>
+          </xsl:for-each>
+        </ast:prop-array>
+      </xsl:if>
+      <!-- defined in Customization/xsl/breadcrumb.xsl; no-op unless args.breadcrumbs is set -->
+      <xsl:call-template name="breadcrumb-props"/>
       <xsl:call-template name="common-props"/>
     </ast:meta>
   </xsl:template>

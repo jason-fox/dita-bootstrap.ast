@@ -16,67 +16,45 @@
   <xsl:import href="plugin:org.dita.base:xsl/common/dita-utilities.xsl"/>
   <xsl:import href="plugin:org.dita.base:xsl/common/topic2textonly.xsl"/>
   <xsl:import href="plugin:org.dita-bootstrap.ast:xsl/serializer.xsl"/>
+  <!-- get-navtitle / toc-href: shared with the per-topic pipeline's breadcrumb generation -->
+  <xsl:import href="plugin:org.dita-bootstrap.ast:xsl/nav.xsl"/>
 
   <xsl:output method="text" encoding="UTF-8"/>
 
   <xsl:param name="OUTEXT" select="'.json'"/>
-
-  <xsl:template match="*" mode="get-navtitle">
-    <xsl:choose>
-      <xsl:when test="*[contains(@class, ' map/topicmeta ')]/*[contains(@class, ' topic/navtitle ')]">
-        <xsl:apply-templates
-          select="*[contains(@class, ' map/topicmeta ')]/*[contains(@class, ' topic/navtitle ')]"
-          mode="dita-ot:text-only"
-        />
-      </xsl:when>
-      <xsl:when test="@navtitle">
-        <xsl:value-of select="@navtitle"/>
-      </xsl:when>
-      <xsl:when test="*[contains(@class, ' map/topicmeta ')]/*[dita-ot:matches-linktext-class(@class)]">
-        <xsl:apply-templates
-          select="*[contains(@class, ' map/topicmeta ')]/*[dita-ot:matches-linktext-class(@class)]"
-          mode="dita-ot:text-only"
-        />
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:value-of select="@href"/>
-      </xsl:otherwise>
-    </xsl:choose>
-  </xsl:template>
+  <!-- same param names/defaults as dita-bootstrap's html5-bootstrap transtype (plugin.xml);
+       passed through to toc.json as-is, not interpreted here -->
+  <xsl:param name="nav-toc" select="'collapsible'"/>
+  <xsl:param name="scrollspy-toc" select="'none'"/>
 
   <xsl:template match="/">
+    <xsl:variable name="map" select="*[contains(@class, ' map/map ')]"/>
     <xsl:variable name="entries" as="element(ast:node)*">
-      <xsl:apply-templates select="*[contains(@class, ' map/map ')]/*[contains(@class, ' map/topicref ')]" mode="toc"/>
+      <xsl:apply-templates select="$map/*[contains(@class, ' map/topicref ')]" mode="toc"/>
     </xsl:variable>
-    <xsl:value-of select="ast:serialize-toc($entries)"/>
+    <!-- same title cascade as dita-bootstrap's Customization/xsl/nav.xsl default-sidebar-header -->
+    <xsl:variable name="doc-title" as="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xsl:choose>
+        <!-- [1] must wrap the whole // result, not chain onto the last step - unparenthesized it
+             means "first title-class child per ancestor," yielding multiple nodes and breaking fn:string() -->
+        <xsl:when test="($map//*[contains(@class, ' topic/title ')])[1]">
+          <xsl:value-of select="string(($map//*[contains(@class, ' topic/title ')])[1])"/>
+        </xsl:when>
+        <xsl:when test="($map//*[contains(@class, ' bookmap/mainbooktitle ')])[1]">
+          <xsl:value-of select="string(($map//*[contains(@class, ' bookmap/mainbooktitle ')])[1])"/>
+        </xsl:when>
+        <xsl:when test="$map/@title">
+          <xsl:value-of select="$map/@title"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of
+            select="string($map/descendant::*[contains(@class, ' topic/topic ')][1]/*[contains(@class, ' topic/title ')][1])"
+          />
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+    <xsl:value-of select="ast:serialize-toc($entries, normalize-space($doc-title), $nav-toc, $scrollspy-toc)"/>
     <xsl:text>&#10;</xsl:text>
-  </xsl:template>
-
-  <xsl:template name="toc-href" as="xs:string?" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-    <xsl:choose>
-      <xsl:when test="not(normalize-space(@href))"/>
-      <xsl:when
-        test="@copy-to and not(contains(@chunk, 'to-content'))
-                      and (not(@format) or @format = ('dita', 'ditamap'))"
-      >
-        <xsl:call-template name="replace-extension">
-          <xsl:with-param name="filename" select="@copy-to"/>
-          <xsl:with-param name="extension" select="$OUTEXT"/>
-        </xsl:call-template>
-        <xsl:if test="not(contains(@copy-to, '#')) and contains(@href, '#')">
-          <xsl:value-of select="concat('#', substring-after(@href, '#'))"/>
-        </xsl:if>
-      </xsl:when>
-      <xsl:when test="not(@scope = 'external') and (not(@format) or @format = ('dita', 'ditamap'))">
-        <xsl:call-template name="replace-extension">
-          <xsl:with-param name="filename" select="@href"/>
-          <xsl:with-param name="extension" select="$OUTEXT"/>
-        </xsl:call-template>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:value-of select="@href"/>
-      </xsl:otherwise>
-    </xsl:choose>
   </xsl:template>
 
   <xsl:template

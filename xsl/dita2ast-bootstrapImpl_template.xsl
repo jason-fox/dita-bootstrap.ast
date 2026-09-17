@@ -14,6 +14,7 @@
   <xsl:import href="plugin:org.dita-bootstrap.ast:xsl/serializer.xsl"/>
   <xsl:import href="plugin:org.dita-bootstrap.ast:xsl/common-attributes.xsl"/>
   <xsl:import href="plugin:org.dita-bootstrap.ast:xsl/get-meta.xsl"/>
+  <xsl:import href="plugin:org.dita-bootstrap.ast:xsl/nav.xsl"/>
   <xsl:import href="plugin:org.dita-bootstrap.ast:xsl/topic.xsl"/>
   <xsl:import href="plugin:org.dita-bootstrap.ast:xsl/note.xsl"/>
   <xsl:import href="plugin:org.dita-bootstrap.ast:xsl/lists.xsl"/>
@@ -34,6 +35,8 @@
   />
 
   <!-- Bootstrap overrides, imported last so they win over the baseline templates above -->
+  <xsl:import href="plugin:org.dita-bootstrap.ast:Customization/xsl/breadcrumb.xsl"/>
+  <xsl:import href="plugin:org.dita-bootstrap.ast:Customization/xsl/scrollspy.xsl"/>
   <xsl:import href="plugin:org.dita-bootstrap.ast:Customization/xsl/theme.xsl"/>
   <xsl:import href="plugin:org.dita-bootstrap.ast:Customization/xsl/icon.xsl"/>
   <xsl:import href="plugin:org.dita-bootstrap.ast:Customization/xsl/note.xsl"/>

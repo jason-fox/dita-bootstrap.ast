@@ -9,7 +9,9 @@
   version="3.0"
 >
 
-  <xsl:template match="*[contains(@class, ' topic/fig ')]">
+  <!-- syntaxdiagram also carries topic/fig; excluded here so pr-d.xsl's own template wins (a
+       syntax diagram isn't a figure). ut-d/imagemap gets the same real-plugin exception but stays unexcluded - no AST imagemap renderer exists yet, and excluding it would just drop its content. -->
+  <xsl:template match="*[contains(@class, ' topic/fig ') and not(contains(@class, ' pr-d/syntaxdiagram '))]">
     <xsl:variable name="title" select="*[contains(@class, ' topic/title ')]"/>
     <xsl:variable name="desc" select="*[contains(@class, ' topic/desc ')]"/>
     <ast:node type="figure">
