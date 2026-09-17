@@ -24,8 +24,8 @@
     desc="Serializes the DITA topic/map tree as a JSON react-bootstrap component tree"
   >
     <param
-      name="args.ast.toc.file"
-      desc="Base filename (no extension) for the merged TOC/nav JSON file"
+      name="args.ast.toc"
+      desc="Specifies the base name of the merged TOC/nav JSON file."
       type="string"
     />
     <param

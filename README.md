@@ -13,6 +13,11 @@ The AST format is recursive and would allow the injection of complex, stateful c
   - [Installing DITA-OT](#installing-dita-ot)
   - [Installing the Plug-in](#installing-the-plug-in)
 - [Using](#using)
+- [Parameters](#parameters)
+  - [Navigation Menus](#navigation-menus)
+  - [Scrollspy navigation](#scrollspy-navigation)
+  - [Breadcrumbs](#breadcrumbs)
+  - [Table of Contents Filename](#table-of-contents-filename)
 - [License](#license)
 
 <!-- /MarkdownTOC -->
@@ -52,6 +57,71 @@ dita --input=path/to/your.ditamap \
 
 This produces one JSON file per topic plus a merged `toc.json`, which a React app can fetch and
 render - see [DITA Bootstrap AST Harness](https://github.com/jason-fox/dita-bootstrap.react) for a working example.
+
+## Parameters
+
+Unlike [DITA Bootstrap](https://dita-bootstrap.github.io)'s HTML5 transtype, this plug-in doesn't render any of the
+variants below itself - it serializes the DITA-OT input parameter value through to the JSON output as-is, and it's
+up to the consuming React app to decide how to render it.
+
+### Navigation Menus
+
+As with `html5-bootstrap`, the standard HTML5 [`--nav-toc`](https://www.dita-ot.org/dev/parameters/parameters-html5.html#html5__nav-toc)
+parameter selects the shape of the table of contents. The value is written to `toc.json`'s `navToc` field:
+
+- `none` – No TOC
+- `partial` – Partial TOC that shows the current topic, its parents, siblings and children
+- `full` – Full TOC for the entire map
+- `list-group-partial` – Partial TOC styled as a Bootstrap list group
+- `list-group-full` – Full TOC styled as a Bootstrap list group
+- `nav-pill-partial` – Partial TOC styled as Bootstrap nav-pills
+- `nav-pill-full` – Full TOC styled as Bootstrap nav-pills
+- `collapsible` – Full TOC with collapsible list elements (the default)
+
+```console
+dita --input=path/to/your.ditamap \
+     --format=ast-bootstrap \
+     --nav-toc=list-group-partial
+```
+
+### Scrollspy navigation
+
+The `--scrollspy-toc` parameter enables an "on this page" navigation entry, built from the current topic's own
+nested subtopics and sections. The value is written to `toc.json`'s `scrollspyToc` field, and
+each topic that has anything to link to gets its own `scrollspy` array in its JSON:
+
+- `none` – No scrollspy navigation (the default)
+- `list` – Plain nested list
+- `list-group` – Styled as a Bootstrap list group
+- `nav-pill` – Styled as Bootstrap nav-pills
+
+```console
+dita --input=path/to/your.ditamap \
+     --format=ast-bootstrap \
+     --scrollspy-toc=list
+```
+
+### Breadcrumbs
+
+The `--args.breadcrumbs` parameter, same as `html5-bootstrap`, adds a topic breadcrumb trail. Set it to `yes` to
+include a `meta.breadcrumbs` array of `{title, href}` entries in each topic's JSON:
+
+```console
+dita --input=path/to/your.ditamap \
+     --format=ast-bootstrap \
+     --args.breadcrumbs=yes
+```
+
+### Table of Contents Filename
+
+By default, the merged table of contents is written to `toc.json`. Set `--args.ast.toc` to change the base filename
+no extension is required.
+
+```console
+dita --input=path/to/your.ditamap \
+     --format=ast-bootstrap \
+     --args.ast.toc=nav
+```
 
 ## License
 
