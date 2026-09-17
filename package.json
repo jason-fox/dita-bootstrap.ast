@@ -1,0 +1,24 @@
+{
+  "name": "dita-bootstrap.ast",
+  "description": "DITA Open Toolkit plug-in that serializes the DITA Bootstrap topic/map tree as a JSON react-bootstrap component tree",
+  "homepage": "https://github.com/dita-bootstrap/dita-bootstrap.ast",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dita-bootstrap/dita-bootstrap.ast.git"
+  },
+  "license": "Apache-2.0",
+  "scripts": {
+    "check": "npm run prettier-check",
+    "fmt": "npm run format",
+    "format": "prettier --write \"**/*\" --ignore-unknown",
+    "prepare": "lefthook install",
+    "prettier": "prettier --write \"**/*\" --ignore-unknown",
+    "prettier-check": "prettier --check \"**/*\" --ignore-unknown",
+    "test": "prettier --list-different \"**/*\" --ignore-unknown"
+  },
+  "devDependencies": {
+    "@prettier/plugin-xml": "3.4.2",
+    "lefthook": "^2.1.10",
+    "prettier": "3.9.6"
+  }
+}

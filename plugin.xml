@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="https://www.dita-ot.org/rng/plugin.rnc" type="application/relax-ng-compact-syntax"?>
+<plugin id="org.dita-bootstrap.ast">
+  <require plugin="org.dita.html5"/>
+
+  <!-- extension points -->
+  <extension-point
+    id="dita.xsl.ast-bootstrap"
+    name="Bootstrap AST XSLT import"
+  />
+
+  <!-- Offers two additional extension points for dependent plug-ins -->
+  <extension-point
+    id="ast-bootstrap.process.pre"
+    name="Custom AST Bootstrap pre-processing"
+  />
+  <extension-point
+    id="ast-bootstrap.process.post"
+    name="Custom AST Bootstrap post-processing"
+  />
+
+  <transtype
+    name="ast-bootstrap"
+    desc="Serializes the DITA topic/map tree as a JSON react-bootstrap component tree"
+  >
+    <param
+      name="args.ast.toc.file"
+      desc="Base filename (no extension) for the merged TOC/nav JSON file"
+      type="string"
+    />
+  </transtype>
+
+  <feature extension="ant.import" file="build_dita2ast-bootstrap.xml"/>
+
+  <!-- Add template files to enable overrides to use extension points -->
+  <template file="build_dita2ast-bootstrap_template.xml"/>
+  <template file="xsl/dita2ast-bootstrapImpl_template.xsl"/>
+</plugin>

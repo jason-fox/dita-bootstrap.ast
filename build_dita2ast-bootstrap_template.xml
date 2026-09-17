@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+This file is part of the DITA Bootstrap AST plug-in for DITA Open Toolkit.
+
+See the accompanying LICENSE file for applicable license.
+-->
+<project
+  xmlns:dita="http://dita-ot.sourceforge.net"
+  xmlns:if="ant:if"
+  xmlns:unless="ant:unless"
+  name="dita2ast-bootstrap"
+>
+
+  <target
+    name="dita2ast-bootstrap"
+    dita:depends="{ast-bootstrap.process.pre},ast-bootstrap.init,
+             build-init,
+             preprocess2,
+             ast-bootstrap.topic,
+             ast-bootstrap.map,{ast-bootstrap.process.post}"
+    dita:extension="depends org.dita.dost.platform.InsertDependsAction"
+  />
+
+  <target name="ast-bootstrap.init">
+    <property
+      name="args.xsl"
+      value="${dita.plugin.org.dita-bootstrap.ast.dir}/xsl/dita2ast-bootstrap.xsl"
+    />
+    <property
+      name="args.ast.toc.xsl"
+      value="${dita.plugin.org.dita-bootstrap.ast.dir}/xsl/map2ast-bootstrap.xsl"
+    />
+    <condition property="out.ext" value=".json">
+      <not>
+        <isset property="args.outext"/>
+      </not>
+    </condition>
+    <property name="args.ast.toc" value="toc"/>
+  </target>
+
+  <target name="ast-bootstrap.topic.init">
+    <makeurl
+      file="${dita.input.valfile}"
+      property="dita.input.valfile.url"
+      validate="no"
+      if:set="dita.input.valfile"
+    />
+  </target>
+
+  <target name="ast-bootstrap.topic" depends="ast-bootstrap.topic.init">
+    <ast-bootstrap.topics/>
+  </target>
+
+  <target name="ast-bootstrap.map">
+    <ast-bootstrap.map/>
+  </target>
+
+  <macrodef name="ast-bootstrap.topics">
+    <sequential>
+      <pipeline
+        message="Convert DITA topic to Bootstrap AST JSON"
+        taskname="xslt"
+      >
+      <xslt
+          destdir="${dita.output.dir}"
+          extension="${out.ext}"
+          style="${args.xsl}"
+          filenameparameter="FILENAME"
+          filedirparameter="FILEDIR"
+          parallel="${parallel}"
+        >
+        <ditafileset format="dita" processingRole="normal"/>
+        <param
+            name="FILTERFILE"
+            expression="${dita.input.valfile.url}"
+            if:set="dita.input.valfile"
+          />
+        <param name="OUTEXT" expression="${out.ext}" if:set="out.ext"/>
+        <xmlcatalog refid="dita.catalog"/>
+      </xslt>
+      </pipeline>
+    </sequential>
+  </macrodef>
+
+  <macrodef name="ast-bootstrap.map">
+    <sequential>
+      <pipeline
+        message="Convert DITA map to Bootstrap AST JSON TOC"
+        taskname="xslt"
+      >
+      <xslt destdir="${dita.output.dir}" style="${args.ast.toc.xsl}">
+        <ditafileset input="true" format="ditamap"/>
+        <param
+            name="FILTERFILE"
+            expression="${dita.input.valfile.url}"
+            if:set="dita.input.valfile"
+          />
+        <param name="OUTEXT" expression="${out.ext}" if:set="out.ext"/>
+        <mapper type="merge" to="${args.ast.toc}${out.ext}"/>
+        <xmlcatalog refid="dita.catalog"/>
+      </xslt>
+      </pipeline>
+    </sequential>
+  </macrodef>
+
+</project>
