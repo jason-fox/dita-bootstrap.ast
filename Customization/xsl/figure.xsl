@@ -65,8 +65,23 @@
         <xsl:if test="@height">
           <ast:prop name="height" value="{@height}"/>
         </xsl:if>
+        <xsl:choose>
+          <xsl:when test="@loading">
+            <ast:prop name="loading" value="{@loading}"/>
+          </xsl:when>
+          <xsl:when test="contains(@otherprops, 'loading(')">
+            <ast:prop name="loading" value="{substring-before(substring-after(@otherprops, 'loading('), ')')}"/>
+          </xsl:when>
+        </xsl:choose>
+        <xsl:variable name="figImageClasses" as="xs:string*" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+          <xsl:text>image</xsl:text>
+          <xsl:if test="contains(@class, ' bootstrap-d/thumbnail ')">
+            <xsl:text>thumbnail</xsl:text>
+          </xsl:if>
+          <xsl:text>figure-img img-fluid border rounded</xsl:text>
+        </xsl:variable>
         <xsl:call-template name="common-props">
-          <xsl:with-param name="defaultClass" select="'figure-img img-fluid border rounded'"/>
+          <xsl:with-param name="defaultClass" select="string-join($figImageClasses, ' ')"/>
         </xsl:call-template>
       </ast:props>
     </ast:node>
