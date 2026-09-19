@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="https://www.dita-ot.org/rng/plugin.rnc" type="application/relax-ng-compact-syntax"?>
 <plugin id="org.dita-bootstrap.ast">
-  <require plugin="org.dita.html5"/>
+  <require plugin="org.dita.base"/>
 
   <!-- extension points -->
   <extension-point

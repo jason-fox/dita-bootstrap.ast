@@ -9,8 +9,6 @@
   <!-- dita-utilities.xsl already includes functions.xsl; don't import it separately -->
   <xsl:import href="plugin:org.dita.base:xsl/common/dita-utilities.xsl"/>
 
-  <xsl:import href="plugin:org.dita.html5:xsl/functions.xsl"/>
-
   <xsl:import href="plugin:org.dita-bootstrap.ast:xsl/serializer.xsl"/>
   <xsl:import href="plugin:org.dita-bootstrap.ast:xsl/common-attributes.xsl"/>
   <xsl:import href="plugin:org.dita-bootstrap.ast:xsl/get-meta.xsl"/>

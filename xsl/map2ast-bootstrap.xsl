@@ -22,6 +22,7 @@
   <xsl:output method="text" encoding="UTF-8"/>
 
   <xsl:param name="OUTEXT" select="'.json'"/>
+  <xsl:param name="DEFAULTLANG" select="'en'"/>
   <!-- same param names/defaults as dita-bootstrap's html5-bootstrap transtype (plugin.xml);
        passed through to toc.json as-is, not interpreted here -->
   <xsl:param name="nav-toc" select="'collapsible'"/>
@@ -53,7 +54,14 @@
         </xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
-    <xsl:value-of select="ast:serialize-toc($entries, normalize-space($doc-title), $nav-toc, $scrollspy-toc)"/>
+    <xsl:variable name="map-lang" select="($map/@xml:lang)[1]"/>
+    <xsl:variable
+      name="effective-lang"
+      select="if (normalize-space($map-lang)) then string($map-lang) else $DEFAULTLANG"
+    />
+    <xsl:value-of
+      select="ast:serialize-toc($entries, normalize-space($doc-title), $nav-toc, $scrollspy-toc, $effective-lang)"
+    />
     <xsl:text>&#10;</xsl:text>
   </xsl:template>
 

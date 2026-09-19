@@ -93,12 +93,13 @@
     <xsl:sequence select="xml-to-json($tree)"/>
   </xsl:function>
 
-  <!-- merged TOC document envelope: {"toc": [tuples], "title": "...", "navToc": "...", "scrollspyToc": "..."} -->
+  <!-- merged TOC document envelope: {"toc": [tuples], "title": "...", "navToc": "...", "scrollspyToc": "...", "lang": "..."} -->
   <xsl:function name="ast:serialize-toc" as="xs:string">
     <xsl:param name="entries" as="element(ast:node)*"/>
     <xsl:param name="title" as="xs:string"/>
     <xsl:param name="nav-toc" as="xs:string"/>
     <xsl:param name="scrollspy-toc" as="xs:string"/>
+    <xsl:param name="lang" as="xs:string?"/>
     <xsl:variable name="tree" as="element(fn:map)">
       <fn:map>
         <fn:array key="toc">
@@ -109,6 +110,9 @@
         </xsl:if>
         <fn:string key="navToc"><xsl:value-of select="$nav-toc"/></fn:string>
         <fn:string key="scrollspyToc"><xsl:value-of select="$scrollspy-toc"/></fn:string>
+        <xsl:if test="normalize-space($lang)">
+          <fn:string key="lang"><xsl:value-of select="$lang"/></fn:string>
+        </xsl:if>
       </fn:map>
     </xsl:variable>
     <xsl:sequence select="xml-to-json($tree)"/>

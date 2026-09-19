@@ -29,8 +29,15 @@
       select="*[contains(@class, ' topic/prolog ')]/*[contains(@class, ' topic/metadata ')]
                             /*[contains(@class, ' topic/keywords ')]//*[contains(@class, ' topic/indexterm ')]"
     />
+    <!-- DITA @xml:lang attribute cascading, falling back to DEFAULTLANG parameter -->
+    <xsl:variable name="doc-lang" select="(ancestor-or-self::*[@xml:lang])[last()]/@xml:lang"/>
+    <xsl:variable
+      name="effective-lang"
+      select="if (normalize-space($doc-lang)) then string($doc-lang) else (if (/*/@xml:lang) then string(/*/@xml:lang) else $DEFAULTLANG)"
+    />
     <ast:meta>
       <ast:prop name="title" value="{string(*[contains(@class, ' topic/title ')][1])}"/>
+      <ast:prop name="lang" value="{$effective-lang}"/>
       <xsl:if test="$shortdesc-text">
         <ast:prop name="shortdesc" value="{$shortdesc-text}"/>
       </xsl:if>
@@ -43,7 +50,9 @@
       </xsl:if>
       <!-- defined in Customization/xsl/breadcrumb.xsl; no-op unless args.breadcrumbs is set -->
       <xsl:call-template name="breadcrumb-props"/>
-      <xsl:call-template name="common-props"/>
+      <xsl:call-template name="common-props">
+        <xsl:with-param name="skipLang" select="true()"/>
+      </xsl:call-template>
     </ast:meta>
   </xsl:template>
 

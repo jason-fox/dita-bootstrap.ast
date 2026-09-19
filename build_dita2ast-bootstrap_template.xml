@@ -89,6 +89,11 @@ See the accompanying LICENSE file for applicable license.
             if:set="args.breadcrumbs"
           />
         <param
+            name="DEFAULTLANG"
+            expression="${default.language}"
+            if:set="default.language"
+          />
+        <param
             name="input.map.url"
             expression="${ast-bootstrap.map.url}"
             if:set="ast-bootstrap.map.url"
@@ -118,6 +123,11 @@ See the accompanying LICENSE file for applicable license.
             if:set="dita.input.valfile"
           />
         <param name="OUTEXT" expression="${out.ext}" if:set="out.ext"/>
+        <param
+            name="DEFAULTLANG"
+            expression="${default.language}"
+            if:set="default.language"
+          />
         <param name="nav-toc" expression="${nav-toc}" if:set="nav-toc"/>
         <param
             name="scrollspy-toc"

@@ -11,6 +11,17 @@
   version="3.0"
 >
 
+  <xsl:function name="dita-ot:generate-id" as="xs:string">
+    <xsl:param name="topic" as="xs:string?"/>
+    <xsl:param name="element" as="xs:string?"/>
+    <xsl:sequence select="string-join(($topic, $element), '__')"/>
+  </xsl:function>
+
+  <xsl:function name="dita-ot:normalize-href" as="xs:string?">
+    <xsl:param name="href" as="xs:string"/>
+    <xsl:sequence select="replace(translate($href, '\', '/'), ' ', '%20')"/>
+  </xsl:function>
+
   <!-- matches org.dita.html5's dita-ot:get-prefixed-id: @id is scoped to the nearest enclosing
        topic (so anchors/xrefs/scrollspy hrefs agree), unless the element itself is a topic. -->
   <xsl:function name="ast:element-id" as="xs:string">
@@ -53,6 +64,7 @@
     <xsl:param name="stripOutputclass" as="xs:string*" select="()" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
     <!-- a caller-supplied base class (e.g. codeblock's 'alert alert-secondary'), mirroring dita-bootstrap's own default-output-class param -->
     <xsl:param name="defaultClass" as="xs:string?" select="()" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+    <xsl:param name="skipLang" as="xs:boolean" select="false()" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
     <xsl:if test="@id">
       <ast:prop name="id" value="{ast:element-id(.)}"/>
     </xsl:if>
@@ -61,7 +73,7 @@
     <xsl:if test="@dir">
       <ast:prop name="dir" value="{@dir}"/>
     </xsl:if>
-    <xsl:if test="@xml:lang">
+    <xsl:if test="@xml:lang and not($skipLang)">
       <ast:prop name="lang" value="{@xml:lang}"/>
     </xsl:if>
     <xsl:variable
