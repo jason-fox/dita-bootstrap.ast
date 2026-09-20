@@ -202,7 +202,7 @@ See the accompanying LICENSE file for applicable license.
     />
     <property
       name="args.chat-bot.hdr"
-      value="${dita.plugin.org.dita-bootstrap.ast.dir}/includes/chrome.navbar.chat-bot.xsl"
+      value="${dita.plugin.org.dita-bootstrap.ast.dir}/includes/chrome.navbar.chat-bot.xml"
     />
     <property
       name="args.chat-bot.card"

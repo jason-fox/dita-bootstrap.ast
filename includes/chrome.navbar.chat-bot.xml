@@ -17,7 +17,7 @@
     </NavbarBrand>
     <NavbarToggle aria-controls="navbarContent" aria-label="Toggle navigation"/>
     <NavbarCollapse id="navbarContent">
-      <Nav className="me-auto">
+      <Nav className="me-auto" id="nav-links-container">
         <NavLink href="#">Link One</NavLink>
         <NavLink href="#">Link Two</NavLink>
         <NavLink href="#">Link Three</NavLink>
