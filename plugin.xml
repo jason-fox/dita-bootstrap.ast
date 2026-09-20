@@ -29,6 +29,16 @@
       type="string"
     />
     <param
+      name="args.hdr"
+      desc="Specifies an XML file that contains content for a running header."
+      type="file"
+    />
+    <param
+      name="args.ftr"
+      desc="Specifies an XML file that contains content for a running footer."
+      type="file"
+    />
+    <param
       name="args.breadcrumbs"
       desc="Specifies whether to include a meta.breadcrumbs title/href trail in each topic's AST."
       type="enum"

@@ -25,6 +25,19 @@
     </fn:array>
   </xsl:template>
 
+  <xsl:template match="ast:node" mode="to-fn-json-key">
+    <xsl:param name="keyName" as="xs:string"/>
+    <fn:array key="{$keyName}">
+      <fn:string><xsl:value-of select="@type"/></fn:string>
+      <xsl:if test="ast:props/(ast:prop | ast:prop-array)">
+        <fn:map>
+          <xsl:apply-templates select="ast:props/(ast:prop | ast:prop-array)" mode="to-fn-json-prop"/>
+        </fn:map>
+      </xsl:if>
+      <xsl:apply-templates select="(ast:node | ast:text)" mode="to-fn-json"/>
+    </fn:array>
+  </xsl:template>
+
   <!-- one ast:text -> a bare fn:string (no wrapper) -->
   <xsl:template match="ast:text" mode="to-fn-json">
     <fn:string><xsl:value-of select="."/></fn:string>
@@ -93,13 +106,17 @@
     <xsl:sequence select="xml-to-json($tree)"/>
   </xsl:function>
 
-  <!-- merged TOC document envelope: {"toc": [tuples], "title": "...", "navToc": "...", "scrollspyToc": "...", "lang": "..."} -->
+  <!-- merged TOC document envelope: {"toc": [tuples], "title": "...", "navToc": "...", "scrollspyToc": "...", "lang": "...", "header"?: [...], "footer"?: [...], "accessibility"?: {...}} -->
   <xsl:function name="ast:serialize-toc" as="xs:string">
     <xsl:param name="entries" as="element(ast:node)*"/>
     <xsl:param name="title" as="xs:string"/>
     <xsl:param name="nav-toc" as="xs:string"/>
     <xsl:param name="scrollspy-toc" as="xs:string"/>
     <xsl:param name="lang" as="xs:string?"/>
+    <xsl:param name="header" as="element(ast:node)?"/>
+    <xsl:param name="footer" as="element(ast:node)?"/>
+    <xsl:param name="skip-to-main" as="xs:string?"/>
+    <xsl:param name="skip-to-nav" as="xs:string?"/>
     <xsl:variable name="tree" as="element(fn:map)">
       <fn:map>
         <fn:array key="toc">
@@ -112,6 +129,26 @@
         <fn:string key="scrollspyToc"><xsl:value-of select="$scrollspy-toc"/></fn:string>
         <xsl:if test="normalize-space($lang)">
           <fn:string key="lang"><xsl:value-of select="$lang"/></fn:string>
+        </xsl:if>
+        <xsl:if test="normalize-space($skip-to-main) or normalize-space($skip-to-nav)">
+          <fn:map key="accessibility">
+            <xsl:if test="normalize-space($skip-to-main)">
+              <fn:string key="main"><xsl:value-of select="$skip-to-main"/></fn:string>
+            </xsl:if>
+            <xsl:if test="normalize-space($skip-to-nav)">
+              <fn:string key="nav"><xsl:value-of select="$skip-to-nav"/></fn:string>
+            </xsl:if>
+          </fn:map>
+        </xsl:if>
+        <xsl:if test="exists($header)">
+          <xsl:apply-templates select="$header" mode="to-fn-json-key">
+            <xsl:with-param name="keyName" select="'header'"/>
+          </xsl:apply-templates>
+        </xsl:if>
+        <xsl:if test="exists($footer)">
+          <xsl:apply-templates select="$footer" mode="to-fn-json-key">
+            <xsl:with-param name="keyName" select="'footer'"/>
+          </xsl:apply-templates>
         </xsl:if>
       </fn:map>
     </xsl:variable>

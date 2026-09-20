@@ -30,6 +30,32 @@ See the accompanying LICENSE file for applicable license.
       name="args.ast.toc.xsl"
       value="${dita.plugin.org.dita-bootstrap.ast.dir}/xsl/map2ast-bootstrap.xsl"
     />
+    <property
+      name="args.hdr"
+      location="${dita.plugin.org.dita-bootstrap.ast.dir}/includes/hdr.navbar.default.xsl"
+    />
+    <pathconvert property="args.hdr.file" if:set="args.hdr">
+      <first>
+        <filelist dir="${dita.dir}" files="${args.hdr}"/>
+      </first>
+    </pathconvert>
+    <pathconvert property="args.ftr.file" if:set="args.ftr">
+      <first>
+        <filelist dir="${dita.dir}" files="${args.ftr}"/>
+      </first>
+    </pathconvert>
+    <makeurl
+      file="${args.hdr.file}"
+      property="args.hdr.url"
+      validate="no"
+      if:set="args.hdr.file"
+    />
+    <makeurl
+      file="${args.ftr.file}"
+      property="args.ftr.url"
+      validate="no"
+      if:set="args.ftr.file"
+    />
     <condition property="out.ext" value=".json">
       <not>
         <isset property="args.outext"/>
@@ -128,6 +154,8 @@ See the accompanying LICENSE file for applicable license.
             expression="${default.language}"
             if:set="default.language"
           />
+        <param name="HDR" expression="${args.hdr.url}" if:set="args.hdr.url"/>
+        <param name="FTR" expression="${args.ftr.url}" if:set="args.ftr.url"/>
         <param name="nav-toc" expression="${nav-toc}" if:set="nav-toc"/>
         <param
             name="scrollspy-toc"

@@ -5,9 +5,10 @@
 -->
 <xsl:stylesheet
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
   xmlns:dita-ot="http://dita-ot.sourceforge.net/ns/201007/dita-ot"
   xmlns:ast="http://dita-ot.sourceforge.net/dita-bootstrap-ast"
-  exclude-result-prefixes="dita-ot ast"
+  exclude-result-prefixes="xs dita-ot ast"
   version="3.0"
 >
 
@@ -23,6 +24,8 @@
 
   <xsl:param name="OUTEXT" select="'.json'"/>
   <xsl:param name="DEFAULTLANG" select="'en'"/>
+  <xsl:param name="HDR" as="xs:string?"/>
+  <xsl:param name="FTR" as="xs:string?"/>
   <!-- same param names/defaults as dita-bootstrap's html5-bootstrap transtype (plugin.xml);
        passed through to toc.json as-is, not interpreted here -->
   <xsl:param name="nav-toc" select="'collapsible'"/>
@@ -59,10 +62,82 @@
       name="effective-lang"
       select="if (normalize-space($map-lang)) then string($map-lang) else $DEFAULTLANG"
     />
+    <xsl:variable name="header-ast" as="element(ast:node)?">
+      <xsl:if test="normalize-space($HDR) and doc-available($HDR)">
+        <xsl:apply-templates select="doc($HDR)/*" mode="hdr-ftr-ast">
+          <xsl:with-param name="doc-title" select="normalize-space($doc-title)" tunnel="yes"/>
+        </xsl:apply-templates>
+      </xsl:if>
+    </xsl:variable>
+    <xsl:variable name="footer-ast" as="element(ast:node)?">
+      <xsl:if test="normalize-space($FTR) and doc-available($FTR)">
+        <xsl:apply-templates select="doc($FTR)/*" mode="hdr-ftr-ast">
+          <xsl:with-param name="doc-title" select="normalize-space($doc-title)" tunnel="yes"/>
+        </xsl:apply-templates>
+      </xsl:if>
+    </xsl:variable>
+    <xsl:variable name="skip-to-main-rtf">
+      <xsl:call-template name="getVariable">
+        <xsl:with-param name="id" select="'Skip to main content'"/>
+      </xsl:call-template>
+    </xsl:variable>
+    <xsl:variable
+      name="skip-to-main"
+      select="if (normalize-space(string($skip-to-main-rtf))) then string($skip-to-main-rtf) else 'Skip to main content'"
+    />
+    <xsl:variable name="skip-to-nav-rtf">
+      <xsl:call-template name="getVariable">
+        <xsl:with-param name="id" select="'Skip to docs navigation'"/>
+      </xsl:call-template>
+    </xsl:variable>
+    <xsl:variable
+      name="skip-to-nav"
+      select="if (normalize-space(string($skip-to-nav-rtf))) then string($skip-to-nav-rtf) else 'Skip to docs navigation'"
+    />
     <xsl:value-of
-      select="ast:serialize-toc($entries, normalize-space($doc-title), $nav-toc, $scrollspy-toc, $effective-lang)"
+      select="ast:serialize-toc($entries, normalize-space($doc-title), $nav-toc, $scrollspy-toc, $effective-lang, $header-ast, $footer-ast, $skip-to-main, $skip-to-nav)"
     />
     <xsl:text>&#10;</xsl:text>
+  </xsl:template>
+
+  <!-- Mode to convert include XML (header/footer templates) into ast:node structures -->
+  <xsl:template match="*[local-name() = 'document-title']" mode="hdr-ftr-ast">
+    <xsl:param name="doc-title" as="xs:string" tunnel="yes"/>
+    <ast:node type="span">
+      <ast:text><xsl:value-of select="$doc-title"/></ast:text>
+    </ast:node>
+  </xsl:template>
+
+  <xsl:template match="*[local-name() = 'favicon']" mode="hdr-ftr-ast">
+    <ast:node type="Favicon">
+      <xsl:if test="@*">
+        <ast:props>
+          <xsl:for-each select="@*">
+            <ast:prop name="{name(.)}" value="{.}"/>
+          </xsl:for-each>
+        </ast:props>
+      </xsl:if>
+      <xsl:apply-templates select="node()" mode="hdr-ftr-ast"/>
+    </ast:node>
+  </xsl:template>
+
+  <xsl:template match="*" mode="hdr-ftr-ast">
+    <ast:node type="{name(.)}">
+      <xsl:if test="@*">
+        <ast:props>
+          <xsl:for-each select="@*">
+            <ast:prop name="{name(.)}" value="{.}"/>
+          </xsl:for-each>
+        </ast:props>
+      </xsl:if>
+      <xsl:apply-templates select="node()" mode="hdr-ftr-ast"/>
+    </ast:node>
+  </xsl:template>
+
+  <xsl:template match="text()" mode="hdr-ftr-ast">
+    <xsl:if test="normalize-space(.) != ''">
+      <ast:text><xsl:value-of select="."/></ast:text>
+    </xsl:if>
   </xsl:template>
 
   <xsl:template
