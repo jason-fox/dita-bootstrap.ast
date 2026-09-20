@@ -129,6 +129,7 @@ See the accompanying LICENSE file for applicable license.
             expression="${scrollspy-toc}"
             if:set="scrollspy-toc"
           />
+        <mapper classname="org.dita.dost.ant.types.JobMapper" to="${out.ext}"/>
         <xmlcatalog refid="dita.catalog"/>
       </xslt>
       </pipeline>

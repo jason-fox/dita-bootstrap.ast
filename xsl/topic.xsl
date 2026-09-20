@@ -43,6 +43,9 @@
       <xsl:apply-templates select="$root-topic" mode="json-meta"/>
     </xsl:variable>
     <xsl:variable name="content" as="element(ast:node)*">
+      <xsl:apply-templates
+        select="$root-topic/*[contains(@class, ' glossentry/glossdef ') or contains(@class, ' topic/abstract ')]"
+      />
       <xsl:apply-templates select="$root-topic/*[contains(@class, ' topic/body ')]/*"/>
       <!-- nested topics are siblings of body, not its children - scrollspy's "has subtopics"
            branch needs them actually present in content, not just body's own children -->
@@ -52,6 +55,16 @@
       <xsl:apply-templates select="$root-topic" mode="scrollspy"/>
     </xsl:variable>
     <xsl:value-of select="ast:serialize-document($meta, $content, $scrollspy)"/>
+  </xsl:template>
+
+  <!-- glossdef / abstract -> p (or div) -->
+  <xsl:template match="*[contains(@class, ' glossentry/glossdef ') or contains(@class, ' topic/abstract ')]">
+    <ast:node type="{if (descendant::*[ast:is-block(.)]) then 'div' else 'p'}">
+      <ast:props>
+        <xsl:call-template name="common-props"/>
+      </ast:props>
+      <xsl:apply-templates select="(*|text())"/>
+    </ast:node>
   </xsl:template>
 
   <!-- nested topic (e.g. task/concept substeps) -> article, matching org.dita.html5's child.topic -->

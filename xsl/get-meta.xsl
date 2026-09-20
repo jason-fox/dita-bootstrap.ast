@@ -20,6 +20,9 @@
             select="string(*[contains(@class, ' topic/abstract ')][1]/*[contains(@class, ' topic/shortdesc ')][1])"
           />
         </xsl:when>
+        <xsl:when test="*[contains(@class, ' glossentry/glossdef ')]">
+          <xsl:sequence select="string(*[contains(@class, ' glossentry/glossdef ')][1])"/>
+        </xsl:when>
       </xsl:choose>
     </xsl:variable>
     <!-- search-only synonyms; never rendered, so this is the AST's only representation of them -->
