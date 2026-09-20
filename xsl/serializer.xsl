@@ -117,6 +117,7 @@
     <xsl:param name="footer" as="element(ast:node)?"/>
     <xsl:param name="skip-to-main" as="xs:string?"/>
     <xsl:param name="skip-to-nav" as="xs:string?"/>
+    <xsl:param name="menubar" as="xs:boolean?"/>
     <xsl:variable name="tree" as="element(fn:map)">
       <fn:map>
         <fn:array key="toc">
@@ -127,6 +128,9 @@
         </xsl:if>
         <fn:string key="navToc"><xsl:value-of select="$nav-toc"/></fn:string>
         <fn:string key="scrollspyToc"><xsl:value-of select="$scrollspy-toc"/></fn:string>
+        <xsl:if test="$menubar">
+          <fn:boolean key="menubar">true</fn:boolean>
+        </xsl:if>
         <xsl:if test="normalize-space($lang)">
           <fn:string key="lang"><xsl:value-of select="$lang"/></fn:string>
         </xsl:if>

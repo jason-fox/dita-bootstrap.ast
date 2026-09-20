@@ -15,6 +15,8 @@ The AST format is recursive and would allow the injection of complex, stateful c
 - [Using](#using)
 - [Parameters](#parameters)
   - [Navigation Menus](#navigation-menus)
+  - [Menubar TOC](#menubar-toc)
+  - [Running Header and Footer](#running-header-and-footer)
   - [Scrollspy navigation](#scrollspy-navigation)
   - [Breadcrumbs](#breadcrumbs)
   - [Table of Contents Filename](#table-of-contents-filename)
@@ -52,6 +54,9 @@ Specify the `ast-bootstrap` format when building output with the `dita` command:
 ```console
 dita --input=path/to/your.ditamap \
      --format=ast-bootstrap \
+     --args.hdr=includes/hdr.navbar.default.xsl \
+     --args.ftr=includes/ftr.content.example.xml \
+     --menubar-toc.include=yes \
      --output=out
 ```
 
@@ -84,6 +89,33 @@ dita --input=path/to/your.ditamap \
      --nav-toc=list-group-partial
 ```
 
+### Menubar TOC
+
+The `--menubar-toc.include` parameter specifies whether top-level menubar navigation is enabled. When set to `yes`, `"menubar": true` is emitted in `toc.json` for the renderer to display top-level menubar links and perform partial sidebar TOC filtering:
+
+- `no` – Menubar is disabled (the default)
+- `yes` – Menubar is enabled and `"menubar": true` is serialized in `toc.json`
+
+```console
+dita --input=path/to/your.ditamap \
+     --format=ast-bootstrap \
+     --menubar-toc.include=yes
+```
+
+### Running Header and Footer
+
+The `--args.hdr` and `--args.ftr` parameters specify XML/XSL files containing header and footer templates. Their AST trees are serialized into `header` and `footer` fields in `toc.json`:
+
+- `--args.hdr` – Specifies an XML file for running header content
+- `--args.ftr` – Specifies an XML file for running footer content
+
+```console
+dita --input=path/to/your.ditamap \
+     --format=ast-bootstrap \
+     --args.hdr=path/to/header.xml \
+     --args.ftr=path/to/footer.xml
+```
+
 ### Scrollspy navigation
 
 The `--scrollspy-toc` parameter enables an "on this page" navigation entry, built from the current topic's own
@@ -103,7 +135,7 @@ dita --input=path/to/your.ditamap \
 
 ### Breadcrumbs
 
-The `--args.breadcrumbs` parameter, same as `html5-bootstrap`, adds a topic breadcrumb trail. Set it to `yes` to
+The `--args.breadcrumbs` parameter, adds a topic breadcrumb trail. Set it to `yes` to
 include a `meta.breadcrumbs` array of `{title, href}` entries in each topic's JSON:
 
 ```console

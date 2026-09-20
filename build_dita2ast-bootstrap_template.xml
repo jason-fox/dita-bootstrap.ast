@@ -162,6 +162,11 @@ See the accompanying LICENSE file for applicable license.
             expression="${scrollspy-toc}"
             if:set="scrollspy-toc"
           />
+        <param
+            name="menubar-toc.include"
+            expression="${menubar-toc.include}"
+            if:set="menubar-toc.include"
+          />
         <mapper type="merge" to="${args.ast.toc}${out.ext}"/>
         <xmlcatalog refid="dita.catalog"/>
       </xslt>

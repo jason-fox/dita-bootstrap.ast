@@ -83,6 +83,14 @@
       <val desc="Scrollspy menu using a list-group">list-group</val>
       <val desc="Scrollspy menu using indented nav-pills">nav-pill</val>
     </param>
+    <param
+      name="menubar-toc.include"
+      type="enum"
+      desc="Specifies whether to include a menu bar at the top of the page"
+    >
+      <val>yes</val>
+      <val default="true">no</val>
+    </param>
   </transtype>
 
   <feature extension="ant.import" file="build_dita2ast-bootstrap.xml"/>

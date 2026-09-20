@@ -30,6 +30,7 @@
        passed through to toc.json as-is, not interpreted here -->
   <xsl:param name="nav-toc" select="'collapsible'"/>
   <xsl:param name="scrollspy-toc" select="'none'"/>
+  <xsl:param name="menubar-toc.include" select="'no'"/>
 
   <xsl:template match="/">
     <xsl:variable name="map" select="*[contains(@class, ' map/map ')]"/>
@@ -95,7 +96,7 @@
       select="if (normalize-space(string($skip-to-nav-rtf))) then string($skip-to-nav-rtf) else 'Skip to docs navigation'"
     />
     <xsl:value-of
-      select="ast:serialize-toc($entries, normalize-space($doc-title), $nav-toc, $scrollspy-toc, $effective-lang, $header-ast, $footer-ast, $skip-to-main, $skip-to-nav)"
+      select="ast:serialize-toc($entries, normalize-space($doc-title), $nav-toc, $scrollspy-toc, $effective-lang, $header-ast, $footer-ast, $skip-to-main, $skip-to-nav, $menubar-toc.include = 'yes')"
     />
     <xsl:text>&#10;</xsl:text>
   </xsl:template>
