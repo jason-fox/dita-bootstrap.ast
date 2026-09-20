@@ -31,7 +31,7 @@
             <FormControl placeholder="Search…" aria-label="Search" dir="auto" type="search" value=""/>
           </InputGroup>
         </Form>
-        <NavDropdown id="bd-theme" className="nav-item" role="theme-toggle">
+        <NavDropdown id="bd-theme" className="nav-item" role="theme-toggle" data-bs-theme="light">
           <NavDropdownItem data-bs-theme-value="light">
             <Icon name="brightness-high-fill" className="me-2"/>
             <span>Light</span>
