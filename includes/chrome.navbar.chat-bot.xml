@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Navbar
+  data-bs-theme="dark"
+  className="navbar-dark bg-dark border-bottom shadow-sm py-2 sticky-top"
+  expand="lg"
+  sticky="top"
+  bg="dark"
+  variant="dark"
+>
+  <Container fluid="xxl" className="px-4">
+    <NavbarBrand
+      className="d-flex align-items-center fw-semibold text-white me-3"
+      href="#"
+    >
+      <favicon/>
+      <document-title/>
+    </NavbarBrand>
+    <NavbarToggle aria-controls="navbarContent" aria-label="Toggle navigation"/>
+    <NavbarCollapse id="navbarContent">
+      <Nav className="me-auto">
+        <NavLink href="#">Link One</NavLink>
+        <NavLink href="#">Link Two</NavLink>
+        <NavLink href="#">Link Three</NavLink>
+      </Nav>
+      <Nav className="align-items-lg-center gap-3 ms-auto mt-2 mt-lg-0">
+        <Button
+          role="clear-chat"
+          variant="outline-light"
+          size="sm"
+          className="btn-sm d-flex align-items-center"
+          title="Clear conversation to reset context &amp; save tokens"
+        >
+          <Icon name="trash3" className="pe-2"/>
+          <span>Clear Chat</span>
+        </Button>
+        <Button
+          type="button"
+          className="nav-link px-0 px-lg-2 d-flex align-items-center"
+          aria-label="Toggle theme"
+          role="theme-toggle"
+        >
+          <Icon name="circle-half" className="fs-5"/>
+        </Button>
+      </Nav>
+    </NavbarCollapse>
+  </Container>
+</Navbar>

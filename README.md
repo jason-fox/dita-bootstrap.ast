@@ -54,7 +54,7 @@ Specify the `ast-bootstrap` format when building output with the `dita` command:
 ```console
 dita --input=path/to/your.ditamap \
      --format=ast-bootstrap \
-     --args.hdr=includes/hdr.navbar.default.xsl \
+     --args.hdr=includes/hdr.navbar.default.xml \
      --args.ftr=includes/ftr.content.example.xml \
      --menubar-toc.include=yes \
      --output=out
@@ -62,6 +62,35 @@ dita --input=path/to/your.ditamap \
 
 This produces one JSON file per topic plus a merged `toc.json`, which a React app can fetch and
 render - see [DITA Bootstrap AST Harness](https://github.com/jason-fox/dita-bootstrap.react) for a working example.
+
+### `ast-chrome` Transtype
+
+Use the `ast-chrome` transtype to generate a chrome template file for the AST renderer and chat-bot.
+
+```console
+dita --format=ast-chrome \
+     --args.docs-page.hdr=includes/chrome.navbar.docs-page.xml \
+     --args.chat-bot.hdr=includes/chrome.navbar.chat-bot.xsl \
+     --args.footer=includes/ftr.content.example.xml \
+     --output=out
+```
+
+The output `chrome.json` contains:
+
+```json
+{
+  "docs-page": {
+    "header": [ ...AST of docs header... ],
+    "card": [ ...AST of docs document card... ]
+  },
+  "chat-bot": {
+    "header": [ ...AST of chat-bot header... ],
+    "card": [ ...AST of AI welcome card... ],
+    "form": [ ...AST of chat submission form... ]
+  },
+  "footer": [ ...AST of footer... ]
+}
+```
 
 ## Parameters
 

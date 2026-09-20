@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<body>
+  <Card className="shadow-sm mb-3" id="welcome-card">
+    <CardBody>
+      <CardTitle className="h5 text-body mb-2" id="welcome-title">
+        Welcome to AI Assistant
+      </CardTitle>
+      <CardText className="text-secondary small mb-3" id="welcome-desc">
+        Ask technical questions or request interactive previews for loaded documentation sets.
+      </CardText>
+      <div className="d-flex flex-wrap gap-2 pt-1" id="quick-prompts-container">
+        <Button variant="outline-secondary" size="sm" className="btn-sm">
+          <span className="pe-2">📚</span>
+          <span>List Doc Sets</span>
+        </Button>
+      </div>
+    </CardBody>
+  </Card>
+  <Card className="shadow-sm flex-shrink-0" id="submission-card">
+    <CardBody className="p-2">
+      <Form id="chat-form" className="d-flex gap-2">
+        <FormControl
+          type="text"
+          id="user-input"
+          placeholder="Ask a question or request a component preview..."
+          className="form-control border-0 shadow-none"
+          autoComplete="off"
+        />
+        <Button
+          type="submit"
+          id="send-btn"
+          variant="primary"
+          className="d-flex align-items-center flex-shrink-0 px-4"
+        >
+          <span>Send</span>
+          <Icon name="send-fill" className="ps-3"/>
+        </Button>
+      </Form>
+    </CardBody>
+  </Card>
+</body>

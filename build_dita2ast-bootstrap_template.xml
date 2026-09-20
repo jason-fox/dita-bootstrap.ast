@@ -32,7 +32,7 @@ See the accompanying LICENSE file for applicable license.
     />
     <property
       name="args.hdr"
-      location="${dita.plugin.org.dita-bootstrap.ast.dir}/includes/hdr.navbar.default.xsl"
+      location="${dita.plugin.org.dita-bootstrap.ast.dir}/includes/hdr.navbar.default.xml"
     />
     <pathconvert property="args.hdr.file" if:set="args.hdr">
       <first>
@@ -171,6 +171,130 @@ See the accompanying LICENSE file for applicable license.
         <xmlcatalog refid="dita.catalog"/>
       </xslt>
       </pipeline>
+    </sequential>
+  </macrodef>
+
+  <target
+    name="dita2ast-chrome"
+    depends="build-init,ast-chrome.init,ast-chrome.process"
+  />
+  <target name="ast-chrome" depends="dita2ast-chrome"/>
+
+  <target name="ast-chrome.init">
+    <property
+      name="dita.plugin.org.dita-bootstrap.ast.dir"
+      location="${dita.dir}/plugins/dita-bootstrap.ast"
+    />
+    <property
+      name="args.ast.chrome.xsl"
+      value="${dita.plugin.org.dita-bootstrap.ast.dir}/xsl/chrome2ast-bootstrap.xsl"
+    />
+
+    <!-- Default template locations -->
+    <property
+      name="args.docs-page.hdr"
+      value="${dita.plugin.org.dita-bootstrap.ast.dir}/includes/chrome.navbar.docs-page.xml"
+    />
+    <property
+      name="args.docs-page.card"
+      value="${dita.plugin.org.dita-bootstrap.ast.dir}/includes/chrome.content.docs-page.xml"
+    />
+    <property
+      name="args.chat-bot.hdr"
+      value="${dita.plugin.org.dita-bootstrap.ast.dir}/includes/chrome.navbar.chat-bot.xsl"
+    />
+    <property
+      name="args.chat-bot.card"
+      value="${dita.plugin.org.dita-bootstrap.ast.dir}/includes/chrome.content.chat-bot.xml"
+    />
+    <property
+      name="args.footer"
+      value="${dita.plugin.org.dita-bootstrap.ast.dir}/includes/ftr.content.example.xml"
+    />
+
+    <!-- Convert paths to URLs for XSLT doc() loading -->
+    <makeurl
+      file="${args.docs-page.hdr}"
+      property="args.docs-page.hdr.url"
+      validate="no"
+      if:set="args.docs-page.hdr"
+    />
+    <makeurl
+      file="${args.docs-page.card}"
+      property="args.docs-page.card.url"
+      validate="no"
+      if:set="args.docs-page.card"
+    />
+    <makeurl
+      file="${args.chat-bot.hdr}"
+      property="args.chat-bot.hdr.url"
+      validate="no"
+      if:set="args.chat-bot.hdr"
+    />
+    <makeurl
+      file="${args.chat-bot.card}"
+      property="args.chat-bot.card.url"
+      validate="no"
+      if:set="args.chat-bot.card"
+    />
+    <makeurl
+      file="${args.chat-bot.form}"
+      property="args.chat-bot.form.url"
+      validate="no"
+      if:set="args.chat-bot.form"
+    />
+    <makeurl
+      file="${args.footer}"
+      property="args.footer.url"
+      validate="no"
+      if:set="args.footer"
+    />
+  </target>
+
+  <target name="ast-chrome.process" depends="ast-chrome.init">
+    <ast-chrome.generate/>
+  </target>
+
+  <macrodef name="ast-chrome.generate">
+    <sequential>
+      <mkdir dir="${dita.output.dir}"/>
+      <xslt
+        in="${args.docs-page.hdr}"
+        out="${dita.output.dir}/chrome.json"
+        style="${args.ast.chrome.xsl}"
+      >
+        <param
+          name="DOCS_PAGE_HDR"
+          expression="${args.docs-page.hdr.url}"
+          if:set="args.docs-page.hdr.url"
+        />
+        <param
+          name="DOCS_PAGE_CARD"
+          expression="${args.docs-page.card.url}"
+          if:set="args.docs-page.card.url"
+        />
+        <param
+          name="CHAT_BOT_HDR"
+          expression="${args.chat-bot.hdr.url}"
+          if:set="args.chat-bot.hdr.url"
+        />
+        <param
+          name="CHAT_BOT_CARD"
+          expression="${args.chat-bot.card.url}"
+          if:set="args.chat-bot.card.url"
+        />
+        <param
+          name="CHAT_BOT_FORM"
+          expression="${args.chat-bot.form.url}"
+          if:set="args.chat-bot.form.url"
+        />
+        <param
+          name="FOOTER"
+          expression="${args.footer.url}"
+          if:set="args.footer.url"
+        />
+        <xmlcatalog refid="dita.catalog"/>
+      </xslt>
     </sequential>
   </macrodef>
 

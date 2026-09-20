@@ -93,6 +93,37 @@
     </param>
   </transtype>
 
+  <transtype
+    name="ast-chrome"
+    desc="Creates a chrome template file for the AST renderer and chat-bot"
+  >
+    <param
+      name="args.docs-page.hdr"
+      desc="Specifies an XML file for the docs page header content."
+      type="file"
+    />
+    <param
+      name="args.docs-page.card"
+      desc="Specifies an XML file for the docs page content."
+      type="file"
+    />
+    <param
+      name="args.chat-bot.hdr"
+      desc="Specifies an XML file for the chat-bot header content."
+      type="file"
+    />
+    <param
+      name="args.chat-bot.card"
+      desc="Specifies an XML file for the chat-bot content."
+      type="file"
+    />
+    <param
+      name="args.footer"
+      desc="Specifies an XML file for footer content."
+      type="file"
+    />
+  </transtype>
+
   <feature extension="ant.import" file="build_dita2ast-bootstrap.xml"/>
 
   <!-- Add template files to enable overrides to use extension points -->

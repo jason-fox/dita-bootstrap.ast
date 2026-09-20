@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<body>
+  <Card className="h-100 shadow-sm border-0 bg-body-tertiary" id="document">
+    <CardBody className="d-flex flex-column">
+      <div className="mb-2">
+        <CardTitle className="h5 mb-0">
+          <document-title/>
+        </CardTitle>
+      </div>
+      <CardText className="text-body-secondary small mb-3">
+        <document-description/>
+      </CardText>
+      <div className="mt-auto pt-3">
+        <Button variant="primary" href="#" className="btn btn-primary">
+          Browse
+        </Button>
+      </div>
+    </CardBody>
+  </Card>
+</body>
