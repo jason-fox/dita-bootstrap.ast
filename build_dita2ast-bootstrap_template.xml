@@ -208,10 +208,6 @@ See the accompanying LICENSE file for applicable license.
       name="args.chat-bot.card"
       value="${dita.plugin.org.dita-bootstrap.ast.dir}/includes/chrome.content.chat-bot.xml"
     />
-    <property
-      name="args.footer"
-      value="${dita.plugin.org.dita-bootstrap.ast.dir}/includes/ftr.content.example.xml"
-    />
 
     <!-- Convert paths to URLs for XSLT doc() loading -->
     <makeurl
