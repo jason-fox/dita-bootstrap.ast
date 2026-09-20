@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <body>
+  <title>AI Assistant</title>
+  <description>AI Assisted Documentation Search</description>
   <Card className="shadow-sm mb-3" id="welcome-card">
     <CardBody>
       <CardTitle className="h5 text-body mb-2" id="welcome-title">

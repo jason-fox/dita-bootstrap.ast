@@ -24,6 +24,24 @@
   <xsl:param name="FOOTER" as="xs:string?"/>
 
   <xsl:template match="/">
+    <xsl:variable
+      name="docs-title"
+      select="if (normalize-space($DOCS_PAGE_CARD) and doc-available($DOCS_PAGE_CARD)) then normalize-space(doc($DOCS_PAGE_CARD)/*/title) else if (normalize-space($DOCS_PAGE_HDR) and doc-available($DOCS_PAGE_HDR)) then normalize-space(doc($DOCS_PAGE_HDR)/*/title) else ''"
+    />
+    <xsl:variable
+      name="docs-desc"
+      select="if (normalize-space($DOCS_PAGE_CARD) and doc-available($DOCS_PAGE_CARD)) then normalize-space(doc($DOCS_PAGE_CARD)/*/description) else if (normalize-space($DOCS_PAGE_HDR) and doc-available($DOCS_PAGE_HDR)) then normalize-space(doc($DOCS_PAGE_HDR)/*/description) else ''"
+    />
+
+    <xsl:variable
+      name="chat-title"
+      select="if (normalize-space($CHAT_BOT_CARD) and doc-available($CHAT_BOT_CARD)) then normalize-space(doc($CHAT_BOT_CARD)/*/title) else if (normalize-space($CHAT_BOT_HDR) and doc-available($CHAT_BOT_HDR)) then normalize-space(doc($CHAT_BOT_HDR)/*/title) else ''"
+    />
+    <xsl:variable
+      name="chat-desc"
+      select="if (normalize-space($CHAT_BOT_CARD) and doc-available($CHAT_BOT_CARD)) then normalize-space(doc($CHAT_BOT_CARD)/*/description) else if (normalize-space($CHAT_BOT_HDR) and doc-available($CHAT_BOT_HDR)) then normalize-space(doc($CHAT_BOT_HDR)/*/description) else ''"
+    />
+
     <xsl:variable name="docs-hdr-ast" as="element(ast:node)?">
       <xsl:if test="normalize-space($DOCS_PAGE_HDR) and doc-available($DOCS_PAGE_HDR)">
         <xsl:apply-templates select="doc($DOCS_PAGE_HDR)/*" mode="hdr-ftr-ast"/>
@@ -35,7 +53,7 @@
         <xsl:variable name="doc-root" select="doc($DOCS_PAGE_CARD)/*"/>
         <xsl:choose>
           <xsl:when test="local-name($doc-root) = 'body'">
-            <xsl:apply-templates select="$doc-root/*" mode="hdr-ftr-ast"/>
+            <xsl:apply-templates select="$doc-root/*[not(self::title or self::description)]" mode="hdr-ftr-ast"/>
           </xsl:when>
           <xsl:otherwise>
             <xsl:apply-templates select="$doc-root" mode="hdr-ftr-ast"/>
@@ -55,7 +73,7 @@
         <xsl:variable name="doc-root" select="doc($CHAT_BOT_CARD)/*"/>
         <xsl:choose>
           <xsl:when test="local-name($doc-root) = 'body'">
-            <xsl:apply-templates select="$doc-root/*" mode="hdr-ftr-ast"/>
+            <xsl:apply-templates select="$doc-root/*[not(self::title or self::description)]" mode="hdr-ftr-ast"/>
           </xsl:when>
           <xsl:otherwise>
             <xsl:apply-templates select="$doc-root" mode="hdr-ftr-ast"/>
@@ -73,7 +91,7 @@
           <xsl:variable name="form-nodes" as="element(ast:node)*">
             <xsl:choose>
               <xsl:when test="local-name($doc-root) = 'body'">
-                <xsl:apply-templates select="$doc-root/*" mode="hdr-ftr-ast"/>
+                <xsl:apply-templates select="$doc-root/*[not(self::title or self::description)]" mode="hdr-ftr-ast"/>
               </xsl:when>
               <xsl:otherwise>
                 <xsl:apply-templates select="$doc-root" mode="hdr-ftr-ast"/>
@@ -97,6 +115,12 @@
     <xsl:variable name="tree" as="element(fn:map)">
       <fn:map>
         <fn:map key="docs-page">
+          <xsl:if test="$docs-title != ''">
+            <fn:string key="title"><xsl:value-of select="$docs-title"/></fn:string>
+          </xsl:if>
+          <xsl:if test="$docs-desc != ''">
+            <fn:string key="description"><xsl:value-of select="$docs-desc"/></fn:string>
+          </xsl:if>
           <xsl:if test="exists($docs-hdr-ast)">
             <xsl:apply-templates select="$docs-hdr-ast" mode="to-fn-json-key">
               <xsl:with-param name="keyName" select="'header'"/>
@@ -119,6 +143,12 @@
         </fn:map>
 
         <fn:map key="chat-bot">
+          <xsl:if test="$chat-title != ''">
+            <fn:string key="title"><xsl:value-of select="$chat-title"/></fn:string>
+          </xsl:if>
+          <xsl:if test="$chat-desc != ''">
+            <fn:string key="description"><xsl:value-of select="$chat-desc"/></fn:string>
+          </xsl:if>
           <xsl:if test="exists($chat-hdr-ast)">
             <xsl:apply-templates select="$chat-hdr-ast" mode="to-fn-json-key">
               <xsl:with-param name="keyName" select="'header'"/>
@@ -149,6 +179,8 @@
   </xsl:template>
 
   <!-- Mode to convert include XML templates into ast:node structures -->
+  <xsl:template match="*[local-name() = 'title' or local-name() = 'description']" mode="hdr-ftr-ast"/>
+
   <xsl:template match="*[local-name() = 'document-title']" mode="hdr-ftr-ast">
     <ast:node type="span">
       <ast:text/>

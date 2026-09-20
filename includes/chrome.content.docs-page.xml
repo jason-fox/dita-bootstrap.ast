@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <body>
+  <title>Documentation</title>
+  <description>Documentation Portal</description>
   <Card className="h-100 shadow-sm border-0 bg-body-tertiary" id="document">
     <CardBody className="d-flex flex-column">
       <div className="mb-2">
