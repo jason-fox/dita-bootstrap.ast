@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "topic.dtd">
+<topic id="ast-interactive-tables">
+  <title>TanStack AST Interactive Tables</title>
+  <shortdesc
+  >Documentation and live examples for dynamic interactive tables using TanStack Table and DITA AST generation.</shortdesc>
+  <body outputclass="language-markup">
+    <p>The <term
+      >DITA Bootstrap AST</term> plug-in emits high-level semantic AST nodes for tables configured with interactive attributes in <xmlatt
+      >otherprops</xmlatt>. The React Harness renderer processes these AST nodes into live <term
+      >TanStack Table</term> components with dynamic search, sorting, pagination, column toggling, CSV export, and sticky headers.</p>
+
+    <section>
+      <title>Search &amp; Filtering</title>
+      <p>Add <xmlelement>table otherprops="search pagination-10"</xmlelement> to enable global search filtering.</p>
+    </section>
+    <bodydiv outputclass="bd-example" deliveryTarget="html">
+      <table outputclass="table-striped" otherprops="search pagination-10">
+        <tgroup cols="3">
+          <colspec colname="COLSPEC0" colwidth="2*"/>
+          <colspec colname="COLSPEC1" colwidth="2*"/>
+          <colspec colname="COLSPEC2" colwidth="1*"/>
+          <thead>
+            <row>
+              <entry colname="COLSPEC0" valign="top">Animal</entry>
+              <entry colname="COLSPEC1" valign="top">Species</entry>
+              <entry colname="COLSPEC2" valign="top">Gestation (Days)</entry>
+            </row>
+          </thead>
+          <tbody conref="gestation.dita#gestation/data">
+            <row><entry/><entry/><entry/></row>
+          </tbody>
+        </tgroup>
+      </table>
+    </bodydiv>
+
+    <section>
+      <title>Sorting &amp; Column Visibility Toggle</title>
+      <p>Add <xmlelement
+        >table otherprops="sortable column-toggle pagination-10"</xmlelement> to allow sorting and column toggling.</p>
+    </section>
+    <bodydiv outputclass="bd-example" deliveryTarget="html">
+      <table outputclass="table-striped" otherprops="sortable column-toggle pagination-10">
+        <tgroup cols="3">
+          <colspec colname="COLSPEC0" colwidth="2*"/>
+          <colspec colname="COLSPEC1" colwidth="2*"/>
+          <colspec colname="COLSPEC2" colwidth="1*"/>
+          <thead>
+            <row>
+              <entry colname="COLSPEC0" valign="top">Animal</entry>
+              <entry colname="COLSPEC1" valign="top">Species</entry>
+              <entry colname="COLSPEC2" valign="top">Gestation (Days)</entry>
+            </row>
+          </thead>
+          <tbody conref="gestation.dita#gestation/data">
+            <row><entry/><entry/><entry/></row>
+          </tbody>
+        </tgroup>
+      </table>
+    </bodydiv>
+
+    <section>
+      <title>CSV Data Export</title>
+      <p>Add <xmlelement
+        >table otherprops="search export pagination-10"</xmlelement> to enable client-side CSV downloads of visible dataset rows.</p>
+    </section>
+    <bodydiv outputclass="bd-example" deliveryTarget="html">
+      <table outputclass="table-striped" otherprops="search export pagination-10">
+        <tgroup cols="3">
+          <colspec colname="COLSPEC0" colwidth="2*"/>
+          <colspec colname="COLSPEC1" colwidth="2*"/>
+          <colspec colname="COLSPEC2" colwidth="1*"/>
+          <thead>
+            <row>
+              <entry colname="COLSPEC0" valign="top">Animal</entry>
+              <entry colname="COLSPEC1" valign="top">Species</entry>
+              <entry colname="COLSPEC2" valign="top">Gestation (Days)</entry>
+            </row>
+          </thead>
+          <tbody conref="gestation.dita#gestation/data">
+            <row><entry/><entry/><entry/></row>
+          </tbody>
+        </tgroup>
+      </table>
+    </bodydiv>
+
+    <section>
+      <title>All Features Combined (Search, Sort, Pagination, Export, Column Toggle, Sticky Header)</title>
+      <p>Combine all interactive table capabilities using <xmlelement
+        >table otherprops="search sortable pagination-10 export column-toggle sticky-header"</xmlelement>.</p>
+    </section>
+    <bodydiv outputclass="bd-example" deliveryTarget="html">
+      <table outputclass="table-striped" otherprops="search sortable pagination-10 export column-toggle sticky-header">
+        <tgroup cols="3">
+          <colspec colname="COLSPEC0" colwidth="2*"/>
+          <colspec colname="COLSPEC1" colwidth="2*"/>
+          <colspec colname="COLSPEC2" colwidth="1*"/>
+          <thead>
+            <row>
+              <entry colname="COLSPEC0" valign="top">Animal</entry>
+              <entry colname="COLSPEC1" valign="top">Species</entry>
+              <entry colname="COLSPEC2" valign="top">Gestation (Days)</entry>
+            </row>
+          </thead>
+          <tbody conref="gestation.dita#gestation/data">
+            <row><entry/><entry/><entry/></row>
+          </tbody>
+        </tgroup>
+      </table>
+    </bodydiv>
+  </body>
+</topic>

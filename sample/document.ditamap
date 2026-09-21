@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE bookmap PUBLIC "-//OASIS//DTD DITA BookMap//EN" "bookmap.dtd">
+<bookmap>
+  <title>DITA Bootstrap AST Interactive Tables</title>
+  <frontmatter deliveryTarget="pdf">
+    <booklists>
+      <toc/>
+    </booklists>
+  </frontmatter>
+  <chapter>
+    <topicmeta>
+      <navtitle>Interactive Tables</navtitle>
+    </topicmeta>
+    <topicref navtitle="Dynamic AST Tables" href="index.dita" locktitle="yes"/>
+    <topicref href="gestation.dita" processing-role="resource-only"/>
+  </chapter>
+</bookmap>

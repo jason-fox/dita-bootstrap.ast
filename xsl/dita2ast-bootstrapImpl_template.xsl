@@ -52,6 +52,7 @@
   <xsl:import href="plugin:org.dita-bootstrap.ast:Customization/xsl/tooltip.xsl"/>
   <xsl:import href="plugin:org.dita-bootstrap.ast:Customization/xsl/popover.xsl"/>
   <xsl:import href="plugin:org.dita-bootstrap.ast:Customization/xsl/table.xsl"/>
+  <xsl:import href="plugin:org.dita-bootstrap.ast:Customization/xsl/interactiveTable.xsl"/>
   <xsl:import href="plugin:org.dita-bootstrap.ast:Customization/xsl/keyword.xsl"/>
 
 </xsl:stylesheet>
