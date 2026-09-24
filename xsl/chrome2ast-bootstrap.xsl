@@ -178,7 +178,7 @@
           </xsl:apply-templates>
         </xsl:if>
 
-        <fn:map key="i18n">
+        <fn:map key="texts">
           <xsl:if test="normalize-space($NO_RESULTS)">
             <fn:string key="noResults"><xsl:value-of select="normalize-space($NO_RESULTS)"/></fn:string>
           </xsl:if>
