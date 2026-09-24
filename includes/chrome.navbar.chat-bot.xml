@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Navbar
   data-bs-theme="dark"
-  className="navbar-dark bg-dark border-bottom shadow-sm py-2 sticky-top"
   expand="lg"
   sticky="top"
   bg="dark"
   variant="dark"
+  className="border-bottom shadow-sm py-2"
 >
   <Container fluid="xxl" className="px-4">
     <NavbarBrand

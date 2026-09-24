@@ -34,6 +34,22 @@ See the accompanying LICENSE file for applicable license.
       name="args.hdr"
       location="${dita.plugin.org.dita-bootstrap.ast.dir}/includes/hdr.navbar.default.xml"
     />
+    <dita-ot-fail id="DOTA069F" if:set="args.hdr">
+      <condition>
+        <not>
+          <available file="${args.hdr}" type="file"/>
+        </not>
+      </condition>
+      <param name="1" value="${args.hdr}"/>
+    </dita-ot-fail>
+    <dita-ot-fail id="DOTA069F" if:set="args.ftr">
+      <condition>
+        <not>
+          <available file="${args.ftr}" type="file"/>
+        </not>
+      </condition>
+      <param name="1" value="${args.ftr}"/>
+    </dita-ot-fail>
     <pathconvert property="args.hdr.file" if:set="args.hdr">
       <first>
         <filelist dir="${dita.dir}" files="${args.hdr}"/>
@@ -208,6 +224,56 @@ See the accompanying LICENSE file for applicable license.
       name="args.chat-bot.card"
       value="${dita.plugin.org.dita-bootstrap.ast.dir}/includes/chrome.content.chat-bot.xml"
     />
+
+    <!-- Validate template file locations -->
+    <dita-ot-fail id="DOTA069F" if:set="args.docs-page.hdr">
+      <condition>
+        <not>
+          <available file="${args.docs-page.hdr}" type="file"/>
+        </not>
+      </condition>
+      <param name="1" value="${args.docs-page.hdr}"/>
+    </dita-ot-fail>
+    <dita-ot-fail id="DOTA069F" if:set="args.docs-page.card">
+      <condition>
+        <not>
+          <available file="${args.docs-page.card}" type="file"/>
+        </not>
+      </condition>
+      <param name="1" value="${args.docs-page.card}"/>
+    </dita-ot-fail>
+    <dita-ot-fail id="DOTA069F" if:set="args.chat-bot.hdr">
+      <condition>
+        <not>
+          <available file="${args.chat-bot.hdr}" type="file"/>
+        </not>
+      </condition>
+      <param name="1" value="${args.chat-bot.hdr}"/>
+    </dita-ot-fail>
+    <dita-ot-fail id="DOTA069F" if:set="args.chat-bot.card">
+      <condition>
+        <not>
+          <available file="${args.chat-bot.card}" type="file"/>
+        </not>
+      </condition>
+      <param name="1" value="${args.chat-bot.card}"/>
+    </dita-ot-fail>
+    <dita-ot-fail id="DOTA069F" if:set="args.chat-bot.form">
+      <condition>
+        <not>
+          <available file="${args.chat-bot.form}" type="file"/>
+        </not>
+      </condition>
+      <param name="1" value="${args.chat-bot.form}"/>
+    </dita-ot-fail>
+    <dita-ot-fail id="DOTA069F" if:set="args.footer">
+      <condition>
+        <not>
+          <available file="${args.footer}" type="file"/>
+        </not>
+      </condition>
+      <param name="1" value="${args.footer}"/>
+    </dita-ot-fail>
 
     <!-- Convert paths to URLs for XSLT doc() loading -->
     <makeurl

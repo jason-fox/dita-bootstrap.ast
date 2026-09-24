@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Navbar
-  data-bs-theme="dark"
-  className="navbar-dark bg-dark navbar-expand-lg sticky-top"
-  expand="lg"
-  sticky="top"
-  bg="dark"
-  variant="dark"
->
+<Navbar data-bs-theme="dark" expand="lg" sticky="top" bg="dark" variant="dark">
   <Container fluid="xxl" className="px-4">
     <NavbarToggle
       aria-controls="bdSidebar"

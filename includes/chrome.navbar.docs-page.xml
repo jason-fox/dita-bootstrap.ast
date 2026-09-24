@@ -1,20 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Navbar
-  data-bs-theme="dark"
-  className="navbar-dark bg-primary navbar-expand-lg sticky-top"
-  expand="lg"
-  sticky="top"
-  bg="primary"
-  variant="dark"
->
+<Navbar data-bs-theme="dark" expand="lg" sticky="top" bg="dark" variant="dark">
   <Container fluid="xxl" className="px-4">
-    <NavbarToggle
-      aria-controls="bdSidebar"
-      aria-label="Toggle docs navigation"
-      className="p-2 me-2"
-    >
-      <Icon name="list"/>
-    </NavbarToggle>
     <NavbarBrand className="d-flex align-items-center fw-semibold" href="/">
       <favicon/>
       <document-title/>
@@ -22,6 +8,24 @@
     <NavbarToggle aria-controls="navbarContent" aria-label="Toggle navigation"/>
     <NavbarCollapse id="navbarContent">
       <Nav className="ms-auto align-items-lg-center">
+        <Form
+          className="position-relative mx-lg-2 search-box"
+          role="search"
+          data-bs-theme="light"
+        >
+          <InputGroup>
+            <InputGroupText className="bg-primary-subtle">
+              <Icon name="search"/>
+            </InputGroupText>
+            <FormControl
+              placeholder="Search…"
+              aria-label="Search"
+              dir="auto"
+              type="search"
+              value=""
+            />
+          </InputGroup>
+        </Form>
         <NavDropdown
           id="bd-theme"
           className="nav-item"
