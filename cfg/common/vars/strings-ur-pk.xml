@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  This file is part of the DITA Bootstrap AST plug-in for DITA Open Toolkit.
+  See the accompanying LICENSE file for applicable licenses.
+-->
+<?xml-model href="strings.rnc" type="application/relax-ng-compact-syntax"?>
+<variables>
+  <variable id="no.results">کوئی نتیجہ نہیں</variable>
+  <variable id="table.of.contents">فہرست مضامین</variable>
+  <variable id="menubar.navigation">مینیو بار نیویگیشن</variable>
+  <variable id="expand">پھیلائیں</variable>
+  <variable id="collapse">سکیڑیں</variable>
+</variables>

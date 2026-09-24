@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  This file is part of the DITA Bootstrap AST plug-in for DITA Open Toolkit.
+  See the accompanying LICENSE file for applicable licenses.
+-->
+<?xml-model href="strings.rnc" type="application/relax-ng-compact-syntax"?>
+<variables>
+  <variable id="no.results">Brak wyników</variable>
+  <variable id="table.of.contents">Spis treści</variable>
+  <variable id="menubar.navigation">Nawigacja paska menu</variable>
+  <variable id="expand">Rozwiń</variable>
+  <variable id="collapse">Zwiń</variable>
+</variables>

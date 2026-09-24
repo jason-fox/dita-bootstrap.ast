@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  This file is part of the DITA Bootstrap AST plug-in for DITA Open Toolkit.
+  See the accompanying LICENSE file for applicable licenses.
+-->
+<?xml-model href="strings.rnc" type="application/relax-ng-compact-syntax"?>
+<variables>
+  <variable id="no.results">Няма вынікаў</variable>
+  <variable id="table.of.contents">Змест</variable>
+  <variable id="menubar.navigation">Навігацыя па панэлі меню</variable>
+  <variable id="expand">Разгарнуць</variable>
+  <variable id="collapse">Згарнуць</variable>
+</variables>

@@ -193,7 +193,7 @@ See the accompanying LICENSE file for applicable license.
 
   <target
     name="dita2ast-chrome"
-    depends="build-init,ast-chrome.init,ast-chrome.process"
+    depends="build-init,ast-chrome.init,ast-chrome.placeholder,ast-chrome.process"
   />
   <target name="ast-chrome" depends="dita2ast-chrome"/>
 
@@ -205,6 +205,14 @@ See the accompanying LICENSE file for applicable license.
     <property
       name="args.ast.chrome.xsl"
       value="${dita.plugin.org.dita-bootstrap.ast.dir}/xsl/chrome2ast-bootstrap.xsl"
+    />
+    <property
+      name="args.ast.placeholder.xsl"
+      value="${dita.plugin.org.dita-bootstrap.ast.dir}/xsl/placeholder-text.xsl"
+    />
+    <property
+      name="args.ast.placeholder.dummy"
+      value="${dita.plugin.org.dita-bootstrap.ast.dir}/resource/dummy.xml"
     />
 
     <!-- Default template locations -->
@@ -356,9 +364,54 @@ See the accompanying LICENSE file for applicable license.
           expression="${args.footer.url}"
           if:set="args.footer.url"
         />
+        <param name="NO_RESULTS" expression="${no.results}"/>
+        <param name="TABLE_OF_CONTENTS" expression="${table.of.contents}"/>
+        <param name="MENUBAR_NAVIGATION" expression="${menubar.navigation}"/>
+        <param name="EXPAND" expression="${expand}"/>
+        <param name="COLLAPSE" expression="${collapse}"/>
         <xmlcatalog refid="dita.catalog"/>
       </xslt>
     </sequential>
   </macrodef>
+
+  <target
+    name="ast-chrome.placeholder"
+    depends="ast-chrome.init"
+    description="Resolve localized chrome.json UI text"
+  >
+    <macrodef name="get-placeholder">
+    <attribute name="property"/>
+    <sequential>
+      <tempfile
+          property="ast-chrome.placeholder.file.@{property}"
+          deleteonexit="true"
+          destdir="${dita.temp.dir}"
+          createfile="true"
+        />
+      <pipeline taskname="placeholder">
+        <xslt
+            classpathref="dost.class.path"
+            style="${args.ast.placeholder.xsl}"
+            in="${args.ast.placeholder.dummy}"
+            out="${ast-chrome.placeholder.file.@{property}}"
+          >
+          <param name="text" expression="@{property}"/>
+          <param name="defaultLanguage" expression="${default.language}"/>
+        </xslt>
+      </pipeline>
+      <loadfile
+          failonerror="true"
+          property="@{property}"
+          srcfile="${ast-chrome.placeholder.file.@{property}}"
+        />
+    </sequential>
+  </macrodef>
+
+    <get-placeholder property="no.results"/>
+    <get-placeholder property="table.of.contents"/>
+    <get-placeholder property="menubar.navigation"/>
+    <get-placeholder property="expand"/>
+    <get-placeholder property="collapse"/>
+  </target>
 
 </project>

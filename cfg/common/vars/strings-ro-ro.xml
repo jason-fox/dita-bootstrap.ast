@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  This file is part of the DITA Bootstrap AST plug-in for DITA Open Toolkit.
+  See the accompanying LICENSE file for applicable licenses.
+-->
+<?xml-model href="strings.rnc" type="application/relax-ng-compact-syntax"?>
+<variables>
+  <variable id="no.results">Niciun rezultat</variable>
+  <variable id="table.of.contents">Cuprins</variable>
+  <variable id="menubar.navigation">Navigare bară de meniu</variable>
+  <variable id="expand">Extinde</variable>
+  <variable id="collapse">Restrânge</variable>
+</variables>

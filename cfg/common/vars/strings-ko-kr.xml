@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  This file is part of the DITA Bootstrap AST plug-in for DITA Open Toolkit.
+  See the accompanying LICENSE file for applicable licenses.
+-->
+<?xml-model href="strings.rnc" type="application/relax-ng-compact-syntax"?>
+<variables>
+  <variable id="no.results">검색 결과가 없습니다</variable>
+  <variable id="table.of.contents">목차</variable>
+  <variable id="menubar.navigation">메뉴 막대 탐색</variable>
+  <variable id="expand">펼치기</variable>
+  <variable id="collapse">접기</variable>
+</variables>

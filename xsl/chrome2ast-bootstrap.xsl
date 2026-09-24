@@ -23,6 +23,12 @@
   <xsl:param name="CHAT_BOT_FORM" as="xs:string?"/>
   <xsl:param name="FOOTER" as="xs:string?"/>
 
+  <xsl:param name="NO_RESULTS" as="xs:string?"/>
+  <xsl:param name="TABLE_OF_CONTENTS" as="xs:string?"/>
+  <xsl:param name="MENUBAR_NAVIGATION" as="xs:string?"/>
+  <xsl:param name="EXPAND" as="xs:string?"/>
+  <xsl:param name="COLLAPSE" as="xs:string?"/>
+
   <xsl:template match="/">
     <xsl:variable
       name="docs-title"
@@ -171,6 +177,24 @@
             <xsl:with-param name="keyName" select="'footer'"/>
           </xsl:apply-templates>
         </xsl:if>
+
+        <fn:map key="i18n">
+          <xsl:if test="normalize-space($NO_RESULTS)">
+            <fn:string key="noResults"><xsl:value-of select="normalize-space($NO_RESULTS)"/></fn:string>
+          </xsl:if>
+          <xsl:if test="normalize-space($TABLE_OF_CONTENTS)">
+            <fn:string key="tableOfContents"><xsl:value-of select="normalize-space($TABLE_OF_CONTENTS)"/></fn:string>
+          </xsl:if>
+          <xsl:if test="normalize-space($MENUBAR_NAVIGATION)">
+            <fn:string key="menubarNavigation"><xsl:value-of select="normalize-space($MENUBAR_NAVIGATION)"/></fn:string>
+          </xsl:if>
+          <xsl:if test="normalize-space($EXPAND)">
+            <fn:string key="expand"><xsl:value-of select="normalize-space($EXPAND)"/></fn:string>
+          </xsl:if>
+          <xsl:if test="normalize-space($COLLAPSE)">
+            <fn:string key="collapse"><xsl:value-of select="normalize-space($COLLAPSE)"/></fn:string>
+          </xsl:if>
+        </fn:map>
       </fn:map>
     </xsl:variable>
 

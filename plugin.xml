@@ -125,6 +125,7 @@
   </transtype>
 
   <feature extension="ant.import" file="build_dita2ast-bootstrap.xml"/>
+  <feature extension="dita.xsl.strings" file="cfg/common/vars/strings.xml"/>
 
   <!-- Add template files to enable overrides to use extension points -->
   <template file="build_dita2ast-bootstrap_template.xml"/>
