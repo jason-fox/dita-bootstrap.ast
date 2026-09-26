@@ -14,6 +14,7 @@ The AST format is recursive and would allow the injection of complex, stateful c
   - [Installing the Plug-in](#installing-the-plug-in)
 - [Using](#using)
 - [Parameters](#parameters)
+  - [Output Archive Filename](#output-archive-filename)
   - [Navigation Menus](#navigation-menus)
   - [Menubar TOC](#menubar-toc)
   - [Running Header and Footer](#running-header-and-footer)
@@ -52,7 +53,7 @@ dita install org.dita-bootstrap.ast
 Specify the `ast-bootstrap` format when building output with the `dita` command:
 
 ```console
-dita --input=path/to/your.ditamap \
+dita --input=path/to/document.ditamap \
      --format=ast-bootstrap \
      --args.hdr=includes/hdr.navbar.default.xml \
      --args.ftr=includes/ftr.content.example.xml \
@@ -60,7 +61,7 @@ dita --input=path/to/your.ditamap \
      --output=out
 ```
 
-This produces one JSON file per topic plus a merged `toc.json`, which a React app can fetch and
+This produces a zip file containing one JSON file per topic plus a merged `toc.json`, which the React Web service can fetch and
 render - see [DITA Bootstrap AST Harness](https://github.com/jason-fox/dita-bootstrap.react) for a working example.
 
 ### `ast-chrome` Transtype
@@ -98,6 +99,18 @@ Unlike [DITA Bootstrap](https://dita-bootstrap.github.io)'s HTML5 transtype, thi
 variants below itself - it serializes the DITA-OT input parameter value through to the JSON output as-is, and it's
 up to the consuming React app to decide how to render it.
 
+### Output Archive Filename
+
+The standard `--args.output.base` parameter (inherited from `org.dita.base`) sets the base file name of the
+generated zip archive for this transtype. It defaults to the input ditamap/topic file name
+(`document.ditamap` → `document.zip`):
+
+```console
+dita --input=path/to/document.ditamap \
+     --format=ast-bootstrap \
+     --args.output.base=my-doc-set
+```
+
 ### Navigation Menus
 
 As with `html5-bootstrap`, the standard HTML5 [`--nav-toc`](https://www.dita-ot.org/dev/parameters/parameters-html5.html#html5__nav-toc)
@@ -113,7 +126,7 @@ parameter selects the shape of the table of contents. The value is written to `t
 - `collapsible` – Full TOC with collapsible list elements (the default)
 
 ```console
-dita --input=path/to/your.ditamap \
+dita --input=path/to/document.ditamap \
      --format=ast-bootstrap \
      --nav-toc=list-group-partial
 ```
@@ -126,7 +139,7 @@ The `--menubar-toc.include` parameter specifies whether top-level menubar naviga
 - `yes` – Menubar is enabled and `"menubar": true` is serialized in `toc.json`
 
 ```console
-dita --input=path/to/your.ditamap \
+dita --input=path/to/document.ditamap \
      --format=ast-bootstrap \
      --menubar-toc.include=yes
 ```
@@ -139,7 +152,7 @@ The `--args.hdr` and `--args.ftr` parameters specify XML/XSL files containing he
 - `--args.ftr` – Specifies an XML file for running footer content
 
 ```console
-dita --input=path/to/your.ditamap \
+dita --input=path/to/document.ditamap \
      --format=ast-bootstrap \
      --args.hdr=path/to/header.xml \
      --args.ftr=path/to/footer.xml
@@ -157,7 +170,7 @@ each topic that has anything to link to gets its own `scrollspy` array in its JS
 - `nav-pill` – Styled as Bootstrap nav-pills
 
 ```console
-dita --input=path/to/your.ditamap \
+dita --input=path/to/document.ditamap \
      --format=ast-bootstrap \
      --scrollspy-toc=list
 ```
@@ -168,7 +181,7 @@ The `--args.breadcrumbs` parameter, adds a topic breadcrumb trail. Set it to `ye
 include a `meta.breadcrumbs` array of `{title, href}` entries in each topic's JSON:
 
 ```console
-dita --input=path/to/your.ditamap \
+dita --input=path/to/document.ditamap \
      --format=ast-bootstrap \
      --args.breadcrumbs=yes
 ```
@@ -179,7 +192,7 @@ By default, the merged table of contents is written to `toc.json`. Set `--args.a
 no extension is required.
 
 ```console
-dita --input=path/to/your.ditamap \
+dita --input=path/to/document.ditamap \
      --format=ast-bootstrap \
      --args.ast.toc=nav
 ```

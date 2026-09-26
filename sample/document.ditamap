@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE bookmap PUBLIC "-//OASIS//DTD DITA BookMap//EN" "bookmap.dtd">
 <bookmap>
-  <title>DITA Bootstrap AST Interactive Tables</title>
+  <title>DITA Bootstrap Tables</title>
   <frontmatter deliveryTarget="pdf">
     <booklists>
       <toc/>
@@ -9,9 +9,9 @@
   </frontmatter>
   <chapter>
     <topicmeta>
-      <navtitle>Interactive Tables</navtitle>
+      <navtitle>DITA Bootstrap Tables</navtitle>
     </topicmeta>
-    <topicref navtitle="Dynamic AST Tables" href="index.dita" locktitle="yes"/>
+    <topicref navtitle="Interactive Tables" href="index.dita" locktitle="yes"/>
     <topicref href="gestation.dita" processing-role="resource-only"/>
   </chapter>
 </bookmap>

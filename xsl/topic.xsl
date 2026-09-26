@@ -11,8 +11,6 @@
   version="3.0"
 >
 
-  <!-- matches org.dita.html5's dita-ot:is-block(): does this element's content
-       force a block-level wrapper (used by topic/p -> p vs div) -->
   <xsl:function name="ast:is-block" as="xs:boolean">
     <xsl:param name="element" as="node()"/>
     <xsl:variable name="class" select="string($element/@class)"/>
@@ -47,8 +45,7 @@
         select="$root-topic/*[contains(@class, ' glossentry/glossdef ') or contains(@class, ' topic/abstract ')]"
       />
       <xsl:apply-templates select="$root-topic/*[contains(@class, ' topic/body ')]/*"/>
-      <!-- nested topics are siblings of body, not its children - scrollspy's "has subtopics"
-           branch needs them actually present in content, not just body's own children -->
+      <!-- nested topics are siblings of body -->
       <xsl:apply-templates select="$root-topic/*[contains(@class, ' topic/topic ')]"/>
     </xsl:variable>
     <xsl:variable name="scrollspy" as="element(ast:node)*">

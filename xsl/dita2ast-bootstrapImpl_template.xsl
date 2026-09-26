@@ -6,12 +6,12 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0">
 
   <xsl:import href="plugin:org.dita.base:xsl/common/output-message.xsl"/>
-  <!-- dita-utilities.xsl already includes functions.xsl; don't import it separately -->
-  <xsl:import href="plugin:org.dita.base:xsl/common/dita-utilities.xsl"/>
 
   <xsl:import href="plugin:org.dita-bootstrap.ast:xsl/serializer.xsl"/>
   <xsl:import href="plugin:org.dita-bootstrap.ast:xsl/common-attributes.xsl"/>
   <xsl:import href="plugin:org.dita-bootstrap.ast:xsl/get-meta.xsl"/>
+  <!-- also brings in dita-utilities.xsl (+ functions.xsl, uri-utils.xsl) and topic2textonly.xsl -
+       don't import those directly here too, or Saxon warns about duplicate imports -->
   <xsl:import href="plugin:org.dita-bootstrap.ast:xsl/nav.xsl"/>
   <xsl:import href="plugin:org.dita-bootstrap.ast:xsl/topic.xsl"/>
   <xsl:import href="plugin:org.dita-bootstrap.ast:xsl/note.xsl"/>

@@ -13,11 +13,7 @@
 >
 
   <xsl:import href="plugin:org.dita.base:xsl/common/output-message.xsl"/>
-  <!-- dita-utilities.xsl already includes functions.xsl; don't import it separately -->
-  <xsl:import href="plugin:org.dita.base:xsl/common/dita-utilities.xsl"/>
-  <xsl:import href="plugin:org.dita.base:xsl/common/topic2textonly.xsl"/>
   <xsl:import href="plugin:org.dita-bootstrap.ast:xsl/serializer.xsl"/>
-  <!-- get-navtitle / toc-href: shared with the per-topic pipeline's breadcrumb generation -->
   <xsl:import href="plugin:org.dita-bootstrap.ast:xsl/nav.xsl"/>
 
   <xsl:output method="text" encoding="UTF-8"/>
@@ -26,8 +22,6 @@
   <xsl:param name="DEFAULTLANG" select="'en'"/>
   <xsl:param name="HDR" as="xs:string?"/>
   <xsl:param name="FTR" as="xs:string?"/>
-  <!-- same param names/defaults as dita-bootstrap's html5-bootstrap transtype (plugin.xml);
-       passed through to toc.json as-is, not interpreted here -->
   <xsl:param name="nav-toc" select="'collapsible'"/>
   <xsl:param name="scrollspy-toc" select="'none'"/>
   <xsl:param name="menubar-toc.include" select="'no'"/>
@@ -37,11 +31,8 @@
     <xsl:variable name="entries" as="element(ast:node)*">
       <xsl:apply-templates select="$map/*[contains(@class, ' map/topicref ')]" mode="toc"/>
     </xsl:variable>
-    <!-- same title cascade as dita-bootstrap's Customization/xsl/nav.xsl default-sidebar-header -->
     <xsl:variable name="doc-title" as="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
       <xsl:choose>
-        <!-- [1] must wrap the whole // result, not chain onto the last step - unparenthesized it
-             means "first title-class child per ancestor," yielding multiple nodes and breaking fn:string() -->
         <xsl:when test="($map//*[contains(@class, ' topic/title ')])[1]">
           <xsl:value-of select="string(($map//*[contains(@class, ' topic/title ')])[1])"/>
         </xsl:when>
@@ -187,7 +178,6 @@
     </xsl:if>
   </xsl:template>
 
-  <!-- if toc=no but a child has toc=yes, that child bubbles up -->
   <xsl:template
     match="*[contains(@class, ' map/topicref ')]
                         [@toc = 'no']

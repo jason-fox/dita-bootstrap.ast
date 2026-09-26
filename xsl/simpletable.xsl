@@ -10,7 +10,6 @@
   version="3.0"
 >
 
-  <!-- empty-table guard -->
   <xsl:template
     match="*[contains(@class, ' topic/simpletable ')]
                         [not(*[contains(@class, ' topic/strow ') or contains(@class, ' topic/sthead ')])]"
